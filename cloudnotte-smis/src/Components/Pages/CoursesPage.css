@@ -1,0 +1,473 @@
+
+/* =========================
+   COURSES PAGE
+========================= */
+
+.courses-page {
+    width: 92%;
+    max-width: 1150px;
+    margin: 35px auto 60px;
+}
+
+
+/* =========================
+   PAGE HEADING
+========================= */
+
+.courses-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.courses-label {
+    margin: 0 0 6px;
+    color: #cc0039;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.courses-heading h1 {
+    margin: 0;
+    color: #1f2937;
+    font-size: 32px;
+}
+
+.courses-subtitle {
+    margin: 8px 0 0;
+    color: #6b7280;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+
+/* =========================
+   COURSE COUNT
+========================= */
+
+.course-count {
+    min-width: 50px;
+    padding: 14px 18px;
+    text-align: center;
+    background-color: #f3f4f6;
+    border-radius: 14px;
+    margin-bottom: 10px;
+}
+
+.course-count span {
+    display: block;
+    color: #cc0039;
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.course-count p {
+    margin: 2px 0 0;
+    color: #6b7280;
+    font-size: 12px;
+}
+
+
+/* =========================
+   COURSE GRID
+========================= */
+
+.courses-container {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+
+/* =========================
+   COURSE CARD
+========================= */
+
+.course-card {
+    min-height: 175px;
+    padding: 18px;
+    border-radius: 16px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    box-sizing: border-box;
+
+    border: 1px solid rgba(0, 0, 0, 0.06);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.course-card:hover {
+    transform: translateY(-4px);
+
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+
+/* =========================
+   ICON
+========================= */
+
+.course-icon {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+
+    background-color: rgba(255, 255, 255, 0.75);
+}
+
+.course-icon svg {
+    width: 22px;
+    height: 22px;
+}
+
+
+/* =========================
+   CARD TEXT
+========================= */
+
+.course-content {
+    margin-top: 18px;
+}
+
+.course-content h3 {
+    margin: 0 0 7px;
+
+    color: #1f2937;
+    font-size: 16px;
+    line-height: 1.2;
+}
+
+.course-content p {
+    margin: 0;
+
+    color: #4b5563;
+    font-size: 12px;
+    line-height: 1.55;
+}
+
+
+/* =========================
+   COURSE COLOURS
+========================= */
+
+/* Mathematics */
+.mathematics {
+    background-color: #fff1f2;
+}
+
+.mathematics .course-icon {
+    color: #e11d48;
+}
+
+
+/* English */
+.english {
+    background-color: #eff6ff;
+}
+
+.english .course-icon {
+    color: #2563eb;
+}
+
+
+/* Civic Education */
+.civic {
+    background-color: #f0fdf4;
+}
+
+.civic .course-icon {
+    color: #16a34a;
+}
+
+
+/* Further Mathematics */
+.further-mathematics {
+    background-color: #f5f3ff;
+}
+
+.further-mathematics .course-icon {
+    color: #7c3aed;
+}
+
+
+/* Biology */
+.biology {
+    background-color: #ecfdf5;
+}
+
+.biology .course-icon {
+    color: #059669;
+}
+
+
+/* Chemistry */
+.chemistry {
+    background-color: #ecfeff;
+}
+
+.chemistry .course-icon {
+    color: #0891b2;
+}
+
+
+/* Physics */
+.physics {
+    background-color: #eff6ff;
+}
+
+.physics .course-icon {
+    color: #1d4ed8;
+}
+
+
+/* Government */
+.government {
+    background-color: #fefce8;
+}
+
+.government .course-icon {
+    color: #ca8a04;
+}
+
+
+/* Literature */
+.literature {
+    background-color: #fdf4ff;
+}
+
+.literature .course-icon {
+    color: #a21caf;
+}
+
+
+/* Sociology */
+.sociology {
+    background-color: #fff7ed;
+}
+
+.sociology .course-icon {
+    color: #ea580c;
+}
+
+
+/* Food and Nutrition */
+.food {
+    background-color: #fff7ed;
+}
+
+.food .course-icon {
+    color: #c2410c;
+}
+
+
+/* Agricultural Science */
+.agriculture {
+    background-color: #f0fdf4;
+}
+
+.agriculture .course-icon {
+    color: #15803d;
+}
+
+
+/* CRS */
+.crs {
+    background-color: #f5f3ff;
+}
+
+.crs .course-icon {
+    color: #6d28d9;
+}
+
+
+/* Technical Drawing */
+.technical {
+    background-color: #f3f4f6;
+}
+
+.technical .course-icon {
+    color: #374151;
+}
+
+
+/* Cosmetology */
+.cosmetology {
+    background-color: #fdf2f8;
+}
+
+.cosmetology .course-icon {
+    color: #db2777;
+}
+
+
+/* Marketing */
+.marketing {
+    background-color: #fff1f2;
+}
+
+.marketing .course-icon {
+    color: #be123c;
+}
+
+
+/* Economics */
+.economics {
+    background-color: #ecfdf5;
+}
+
+.economics .course-icon {
+    color: #047857;
+}
+
+
+/* Geography */
+.geography {
+    background-color: #ecfdf5;
+}
+
+.geography .course-icon {
+    color: #16a34a;
+}
+
+
+/* Music */
+.music {
+    background-color: #f5f3ff;
+}
+
+.music .course-icon {
+    color: #7c3aed;
+}
+
+
+/* Accounting */
+.accounting {
+    background-color: #eff6ff;
+}
+
+.accounting .course-icon {
+    color: #2563eb;
+}
+
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 850px) {
+
+    .courses-container {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .courses-page {
+        width: 94%;
+    }
+}
+
+
+/* =========================
+   PHONE
+========================= */
+
+@media (max-width: 550px) {
+
+    .courses-page {
+        width: 92%;
+        margin-top: 25px;
+    }
+
+    .courses-heading {
+        align-items: flex-start;
+        margin-bottom: 22px;
+    }
+
+    .courses-heading h1 {
+        font-size: 26px;
+    }
+
+    .courses-subtitle {
+        font-size: 13px;
+    }
+
+    .course-count {
+        min-width: 65px;
+        padding: 10px 12px;
+    }
+
+    .course-count span {
+        font-size: 21px;
+    }
+
+    .courses-container {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .course-card {
+        min-height: 155px;
+        padding: 16px;
+    }
+}
+
+
+/* =========================
+   VERY SMALL PHONES
+========================= */
+
+@media (max-width: 380px) {
+
+    .courses-page {
+        width: 94%;
+    }
+
+    .courses-heading h1 {
+        font-size: 23px;
+    }
+
+    .courses-label {
+        font-size: 10px;
+    }
+
+    .courses-subtitle {
+        font-size: 12px;
+    }
+
+    .course-card {
+        min-height: 145px;
+        padding: 14px;
+    }
+
+    .course-icon {
+        width: 38px;
+        height: 38px;
+    }
+
+    .course-icon svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .course-content h3 {
+        font-size: 15px;
+    }
+
+    .course-content p {
+        font-size: 11px;
+    }
+}
+

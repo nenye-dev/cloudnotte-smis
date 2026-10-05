@@ -1,3 +1,4 @@
+import {Link} from 'react-router'
 import logo from '../assets/logo.png'
 import './Header.css'
 function Header(){
@@ -7,7 +8,9 @@ function Header(){
             <button className="menu-button">
                 ☰
             </button>
+            <Link to="/">
             <img src={logo} />
+            </Link>
             </div>
             <button className="profile-button">EC</button>
         </div>
