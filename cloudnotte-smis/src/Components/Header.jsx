@@ -1,19 +1,68 @@
 import {Link} from 'react-router'
 import logo from '../assets/logo.png'
 import './Header.css'
-function Header(){
+function Header({isMenuOpen,setIsMenuOpen}){
+    const handleMenuClick =()=>{
+        setIsMenuOpen(!isMenuOpen)
+    }
     return(
-        <div className="header">
+    <>
+        <header className="header">
             <div className="header1">
-            <button className="menu-button">
+            <button 
+            className="menu-button"
+            onClick={handleMenuClick}
+            >
                 ☰
             </button>
             <Link to="/">
-            <img src={logo} />
+                <img src={logo} />
             </Link>
             </div>
-            <button className="profile-button">EC</button>
-        </div>
+            <button className="profile-button">
+                EC
+            </button>
+        </header>
+        <nav className={`side-menu ${
+            isMenuOpen ? 'side-menu-open' : ''
+        }`}>
+            <div className="menu-header">
+                <h2>Menu</h2>
+                <button 
+                className="close-button"
+                onClick={handleMenuClick}
+                >
+                    x
+                </button>
+             </div>
+                <div className="menu-links">
+                    <Link 
+                        to ="/"
+                        onClick={()=>setIsMenuOpen(false)}
+                    >
+                        Home
+                    </Link>
+                    <Link 
+                        to ="students"
+                        onClick={()=>setIsMenuOpen(false)}
+                    >
+                        Students
+                    </Link>
+                    <Link 
+                        to ="courses"
+                        onClick={()=>setIsMenuOpen(false)}
+                    >
+                        Courses
+                    </Link>
+                    <Link 
+                        to ="about"
+                        onClick={()=>setIsMenuOpen(false)}
+                    >
+                        About
+                    </Link>
+                </div>
+        </nav>
+    </>
     )
 }
 export default Header

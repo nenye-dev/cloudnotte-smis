@@ -1,0 +1,20 @@
+.layout { 
+    width: 100%;
+     min-height: 100vh; 
+} 
+/* ========================================= MAIN PAGE CONTENT ========================================= */ 
+.main-content { 
+    width: 100%; 
+    transition: margin-left 0.3s ease; 
+    box-sizing: border-box;
+ } 
+ /* ========================================= MOVE PAGE WHEN MENU OPENS ========================================= */ 
+ .main-content-shifted {
+     margin-left: 260px;
+ } 
+ /* ========================================= MOBILE ========================================= */ 
+ @media (max-width: 600px) {
+     .main-content-shifted {
+         margin-left: 0;
+     } 
+}

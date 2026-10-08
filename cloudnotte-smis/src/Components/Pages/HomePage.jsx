@@ -1,6 +1,6 @@
 import {Link} from 'react-router'
 import {useState,useEffect} from 'react';
-import Header from '../Header'
+
 import './HomePage.css'
 
 
@@ -20,7 +20,7 @@ const juniorStudents =students.slice(0,18).length
 const seniorStudents =students.slice(18,30).length
     return(
         <>
-        <Header />
+        
         <div className="welcome-card">
            <h2> Welcome to the CloudNotte School Management Information System</h2>
         </div>

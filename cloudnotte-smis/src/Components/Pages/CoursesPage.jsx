@@ -21,7 +21,6 @@ import {
     Music,
     Banknote
 } from 'lucide-react'
-import Header from '../Header'
 import './CoursesPage.css'
 
 
@@ -221,7 +220,7 @@ function CoursesPage(){
                 )
                 return (
                     <>
-                     <Header />
+                     
                      <main className="courses-page">
                         <button className="back-button"
                          onClick={()=>setSelectedGroup(null)}
@@ -259,7 +258,7 @@ function CoursesPage(){
             }
     return(
     <>
-        <Header />
+        
         <main className="courses-page">
             <div className="course-heading">
                 <div>

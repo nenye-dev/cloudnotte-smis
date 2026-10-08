@@ -1,6 +1,5 @@
 import {useState,useEffect} from 'react'
 import {UserRound, MapPin, Mail} from 'lucide-react'
-import Header from '../Header'
 import './StudentsPage.css'
 function StudentsPage(){
 
@@ -20,15 +19,15 @@ function StudentsPage(){
         "JSS 1" :students.slice(0,5),
         "JSS 2" :students.slice(5,12),
         "JSS 3" :students.slice(12,18),
-        "SS 1" :students.slice(18,23),
-        "SS 2" :students.slice(23,27),
-        "SS 3" :students.slice(27,30)
+        "SSS 1" :students.slice(18,23),
+        "SSS 2" :students.slice(23,27),
+        "SSS 3" :students.slice(27,30)
     }
     console.log(classes)
     if (selectedClass){
         return(
             <>
-            <Header />
+            
             <div className="students-page">
                 <button className="back-button"
                     onClick={()=>setSelectedClass(null)}
@@ -108,7 +107,7 @@ function StudentsPage(){
     }
     return(
         <>
-        <Header />
+        
         <div className="students-page">
             <h1>Students</h1>
                 <section className="student-level">
@@ -128,14 +127,14 @@ function StudentsPage(){
                 <section className="student-level">
                     <h2>Senior Students</h2>
                         <div className="class-list">
-                            <div className="class-card" onClick={()=>setSelectedClass("SS 1")}>
-                                <h3>SS 1</h3>
+                            <div className="class-card" onClick={()=>setSelectedClass("SSS 1")}>
+                                <h3>SSS 1</h3>
                             </div>
-                            <div className="class-card" onClick={()=>setSelectedClass("SS 2")}>
-                                <h3>SS 2</h3>
+                            <div className="class-card" onClick={()=>setSelectedClass("SSS 2")}>
+                                <h3>SSS 2</h3>
                             </div>
-                            <div className="class-card" onClick={()=>setSelectedClass("SS 3")}>
-                                <h3>SS 3</h3>
+                            <div className="class-card" onClick={()=>setSelectedClass("SSS 3")}>
+                                <h3>SSS 3</h3>
                             </div>
                         </div>
                 </section>

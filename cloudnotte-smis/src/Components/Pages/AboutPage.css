@@ -1,0 +1,117 @@
+
+/* =========================================
+   ABOUT PAGE
+========================================= */
+
+.about-container {
+    width: 85%;
+    max-width: 800px;
+
+    margin: 0 auto;
+    margin-top: 80px;
+
+    padding: 45px 40px;
+
+    box-sizing: border-box;
+
+    background-color: #0a0f1e;
+
+    color: white;
+
+    border-radius: 14px;
+
+    text-align: center;
+
+    line-height: 1.8;
+
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+
+    /* Centers the container vertically */
+    min-height: 250px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+
+/* =========================================
+   TEXT
+========================================= */
+
+.about-container p {
+    margin: 0;
+
+    max-width: 650px;
+
+    font-size: 17px;
+
+    font-weight: 400;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 800px) {
+
+    .about-container {
+        width: 88%;
+
+        padding: 40px 30px;
+
+        min-height: 230px;
+    }
+
+    .about-container p {
+        font-size: 16px;
+    }
+}
+
+
+/* =========================================
+   PHONE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .about-container {
+        width: 90%;
+
+        padding: 32px 24px;
+
+        min-height: 210px;
+
+        border-radius: 12px;
+    }
+
+    .about-container p {
+        font-size: 15px;
+
+        line-height: 1.7;
+    }
+}
+
+
+/* =========================================
+   SMALL PHONES
+========================================= */
+
+@media (max-width: 390px) {
+
+    .about-container {
+        width: 92%;
+
+        padding: 28px 18px;
+
+        min-height: 200px;
+    }
+
+    .about-container p {
+        font-size: 14px;
+
+        line-height: 1.65;
+    }
+}
