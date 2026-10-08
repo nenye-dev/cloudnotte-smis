@@ -1,191 +1,449 @@
+/* ================================
+   Students Page
+================================ */
 
-/* Students container */
+.students-page {
+    width: 90%;
+    max-width: 1200px;
+    margin: 40px auto 60px;
+}
 
-.students-container {
-    width: 92%;
-    max-width: 1100px;
-    margin: 25px auto;
 
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+/* ================================
+   Page Heading
+================================ */
+
+.students-page > h1 {
+    margin: 0 0 40px;
+
+    color: #cc0039;
+    font-size: 32px;
+    font-weight: 700;
+}
+
+
+/* ================================
+   Student Level Sections
+================================ */
+
+.student-level {
+    margin-bottom: 45px;
+}
+
+.student-level h2 {
+    margin: 0 0 18px;
+
+    color: #6b7280;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+
+/* ================================
+   Class Cards
+================================ */
+
+.class-list {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.class-card {
+    flex: 1;
+    min-width: 200px;
+    min-height: 140px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: #080D1A;
+    border: 1px solid #9ca3af;
+    border-radius: 12px;
+
+    box-sizing: border-box;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.class-card h3 {
+    margin: 0;
+
+    color: #f5f5f5;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.class-card:hover {
+    transform: translateY(-4px);
+
+    border-color: #cc0039;
+
+    box-shadow: 0 8px 20px rgba(8, 13, 26, 0.18);
+}
+
+.class-card:active {
+    transform: translateY(-1px);
+}
+
+
+/* ================================
+   Back Button
+================================ */
+
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-bottom: 25px;
+    padding: 10px 16px;
+
+    background-color: transparent;
+    color: #cc0039;
+
+    border: 1px solid #cc0039;
+    border-radius: 7px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.back-button:hover {
+    background-color: #cc0039;
+    color: #f5f5f5;
+}
+
+
+/* ================================
+   Class Heading
+================================ */
+
+.students-page .back-button + h1 {
+    margin-bottom: 25px;
+
+    color: #080D1A;
+    font-size: 28px;
+}
+
+
+/* ================================
+   Students Table Container
+================================ */
+
+.class-students-table {
+    width: 100%;
+
+    background-color: #ffffff;
+
+    border: 1px solid #9ca3af;
+    border-radius: 12px;
+
+    overflow-x: auto;
+
+    box-sizing: border-box;
+}
+
+
+/* ================================
+   Students Table
+================================ */
+
+.student-table {
+    width: 100%;
+    min-width: 700px;
+
+    border-collapse: collapse;
+}
+
+
+/* Table Header */
+
+.student-table thead {
+    background-color: #080D1A;
+}
+
+.student-table th {
+    padding: 16px 18px;
+
+    color: #f5f5f5;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    text-align: left;
+
+    white-space: nowrap;
+}
+
+.student-table th svg {
+    width: 16px;
+    height: 16px;
+
+    margin-right: 6px;
+
+    vertical-align: middle;
+}
+
+
+/* Table Body */
+
+.student-table td {
+    padding: 14px 18px;
+
+    color: #333333;
+
+    font-size: 14px;
+
+    border-bottom: 1px solid #e5e7eb;
+
+    vertical-align: middle;
+}
+
+
+/* Remove border from final row */
+
+.student-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* Row Hover */
+
+.student-table tbody tr {
+    cursor:pointer;
+    transition: background-color 0.15s ease;
+}
+
+.student-table tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+
+/* ================================
+   Student Passport
+================================ */
+
+.table-student-image {
+    width: 48px;
+    height: 48px;
+
+    display: block;
+
+    object-fit: cover;
+
+    border-radius: 50%;
+
+    border: 2px solid #9ca3af;
+}
+
+
+/* ================================
+   S/N
+================================ */
+
+.student-table th:first-child,
+.student-table td:first-child {
+    width: 60px;
+
+    text-align: center;
+}
+
+/* Table + Profile Layout */
+
+.students-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    width: 100%;
+}
+
+.students-content .class-students-table {
+    flex: 1;
+    min-width: 0;
+}
+
+
+/* Student Profile */
+
+.student-profile-card {
+    width: 330px;
+    flex-shrink: 0;
+    padding: 25px;
+    background-color: #ffffff;
+    border: 1px solid #9ca3af;
+    border-radius: 12px;
+    box-sizing: border-box;
+    position: relative;
+    box-shadow: 0 8px 24px rgba(8, 13, 26, 0.08);
+}
+
+
+/* Close Button */
+
+.close-profile {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+
+    width: 20px;
+    height: 20px;
+
+    border: none;
+    border-radius: 50%;
+
+    background-color: #f5f5f5;
+    color: #080D1A;
+
+    font-size: 18px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: 0.2s ease;
+}
+
+.close-profile:hover {
+    background-color: #cc0039;
+    color: #ffffff;
+}
+
+
+/* Profile Image */
+
+.profile-image {
+    width: 105px;
+    height: 105px;
+
+    display: block;
+    margin: 10px auto 18px;
+
+    object-fit: cover;
+    border-radius: 50%;
+
+    border: 3px solid #cc0039;
+}
+
+
+/* Student Name */
+
+.student-profile-card h2 {
+    margin: 0;
+
+    text-align: center;
+
+    color: #080D1A;
+
+    font-size: 22px;
+    font-weight: 700;
+}
+
+
+/* Student ID */
+
+.profile-id {
+    margin: 6px 0 25px;
+
+    text-align: center;
+
+    color: #6b7280;
+
+    font-size: 13px;
+}
+
+
+/* Details */
+
+.profile-details {
+    display: flex;
+    flex-direction: column;
     gap: 16px;
 }
 
-
-/* Student image */
-
-.student-image {
-    width: 70px;
-    height: 70px;
-    flex-shrink: 0;
-
-    object-fit: cover;
-    border-radius: 8px;
+.profile-details > div {
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e5e7eb;
 }
 
-
-/* Student card */
-
-.students-card {
-    display: flex;
-    align-items: flex-start;
-
-    gap: 12px;
-    padding: 12px;
-
-    border: 1px solid #111827;
-    border-radius: 10px;
-
-    background-color: #F9FAFB;
-
-    min-width: 0;
-    width: 100%;
-    box-sizing: border-box;
-
-    overflow: hidden;
-
-    transition: transform 0.2s ease,
-                background-color 0.2s ease;
+.profile-details > div:last-child {
+    border-bottom: none;
 }
 
+.profile-details span {
+    display: block;
 
-/* Hover */
+    margin-bottom: 5px;
 
-.students-card:hover {
-    background-color: #e5e5e5;
-    transform: translateY(-2px);
+    color: #6b7280;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
 }
 
+.profile-details p {
+    margin: 0;
 
-/* Student information */
+    color: #333333;
 
-.student-description {
-    min-width: 0;
-    flex: 1;
-    overflow: hidden;
+    font-size: 14px;
+    line-height: 1.5;
+
+    word-break: break-word;
 }
+/* ================================
+   Responsive
+================================ */
 
+@media (max-width: 700px) {
 
-/* Student name */
-
-.student-description h3 {
-    margin: 0 0 8px;
-
-    color: #cc0039;
-    font-size: 16px;
-
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-
-/* Student information */
-
-.student-description p {
-    display: flex;
-    align-items: center;
-
-    gap: 5px;
-
-    margin: 5px 0;
-
-    color: #080d1A;
-    font-size: 13px;
-
-    min-width: 0;
-
-    overflow-wrap: anywhere;
-}
-
-
-/* Icons */
-
-.icon {
-    width: 15px;
-    height: 15px;
-
-    flex-shrink: 0;
-}
-
-
-/* Medium screens */
-
-@media (max-width: 850px) {
-
-    .students-container {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        width: 94%;
-    }
-
-}
-
-
-/* Small screens */
-
-@media (max-width: 550px) {
-
-    .students-container {
-        grid-template-columns: 1fr;
+    .students-page {
         width: 92%;
-        gap: 12px;
+        margin-top: 30px;
     }
 
-    .students-card {
-        padding: 10px;
+    .students-page > h1 {
+        font-size: 27px;
+        margin-bottom: 30px;
     }
 
-    .student-image {
-        width: 65px;
-        height: 65px;
+    .student-level h2 {
+        font-size: 20px;
     }
 
-    .student-description h3 {
-        font-size: 15px;
-        margin-bottom: 6px;
+    .class-list {
+        flex-direction: column;
+        gap: 15px;
     }
 
-    .student-description p {
-        font-size: 12px;
-        margin: 4px 0;
+    .class-card {
+        width: 100%;
+        min-height: 110px;
     }
 
-    .icon {
-        width: 14px;
-        height: 14px;
-    }
-}
-
-
-/* Very small phones */
-
-@media (max-width: 380px) {
-
-    .students-container {
-        width: 94%;
-        gap: 10px;
+    .students-page .back-button + h1 {
+        font-size: 24px;
     }
 
-    .students-card {
-        padding: 8px;
-        gap: 9px;
-    }
-
-    .student-image {
-        width: 58px;
-        height: 58px;
-    }
-
-    .student-description h3 {
-        font-size: 14px;
-    }
-
-    .student-description p {
-        font-size: 11px;
-    }
-
-    .icon {
-        width: 13px;
-        height: 13px;
+    .class-students-table {
+        border-radius: 10px;
     }
 }

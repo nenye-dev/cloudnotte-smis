@@ -1,3 +1,4 @@
+import {useState} from 'react'
 import {
     Diff,
     BookA,
@@ -25,7 +26,9 @@ import './CoursesPage.css'
 
 
 function CoursesPage(){
-       
+       const [selectedGroup,setSelectedGroup]=useState(null)
+       const [selectedGroupName,setSelectedGroupName]=useState('')
+       const [selectedGroupDescription,setSelectedGroupDescription]=useState('')      
             const courses=[
                 {
                     className:'mathematics',
@@ -168,8 +171,92 @@ function CoursesPage(){
             
 
             ]
-           
-         
+            console.log(courses)
+            
+           const juniorCourses=[
+            'Mathematics',
+            'English',
+            'Civic Education',
+            'Agricultural Science',
+            'Music',
+            'Geography',
+            'CRS',
+            'Accounting',
+            'Literature',
+            'Sociology',
+           ]
+           const seniorCourses=[
+            'Mathematics',
+            'English',
+            'Civic Education',
+            'Further Mathematics',
+            'Biology',
+            'Chemistry',
+            'Physics',
+            'Marketing',
+            'Cosmetology',
+            'Government',
+            'Literature',
+            'Sociology',
+            'Food and Nutrition',
+            'Technical Drawing',
+            'Economics',
+            'Accounting'
+           ]
+           console.log(juniorCourses)
+           console.log(seniorCourses)
+           const bothCourses=juniorCourses.filter(course=>
+            seniorCourses.includes(course)
+           )
+           const juniorOnlyCourses=juniorCourses.filter(course=>
+            !seniorCourses.includes(course)
+           )
+           const seniorOnlyCourses=seniorCourses.filter(course=>
+            !juniorCourses.includes(course)
+           )
+         console.log(bothCourses)
+         if (selectedGroup){
+                const selectedCourses=courses.filter(course=>
+                    selectedGroup.includes(course.name)
+                )
+                return (
+                    <>
+                     <Header />
+                     <main className="courses-page">
+                        <button className="back-button"
+                         onClick={()=>setSelectedGroup(null)}
+                        >
+                            ← Back to Courses
+                        </button>
+                        <div className="course-heading">
+                            <div>
+                                <h1>{selectedGroupName} Courses</h1>
+                                <p className="courses-subtitle">{selectedGroupDescription}</p>
+                            </div>
+                            <div className="course-count">
+                                <span>{selectedCourses.length} Courses</span>
+                            </div>
+                        </div>
+                        <div className="courses-container">
+                            {selectedCourses.map((course)=>{
+                            const Icon=course.icon
+                            return(
+                                <div className={`course-card ${course.className}`} key={course.name}>
+                                    <div className="course-icon">
+                                        <Icon />
+                                    </div>
+                                    <div className="course-content">
+                                        <h3>{course.name}</h3>
+                                        <p>{course.description}</p>
+                                    </div>
+                                </div>
+                        )
+                        })}
+                        </div>
+                     </main>
+                    </>
+                )
+            }
     return(
     <>
         <Header />
@@ -177,27 +264,92 @@ function CoursesPage(){
             <div className="course-heading">
                 <div>
                     <h1>Courses Offered</h1>
-                    <p className="courses-subtitle">Explore the subjects available to our students.</p>
+                    <p className="courses-subtitle">
+                        Explore the subjects available to our students.
+                    </p>
                 </div>
                 <div className="course-count">
                     <span>{courses.length} Courses</span>
                 </div>
             </div>
-            <div className="courses-container">
-                {courses.map((course)=>{
-                    const Icon=course.icon
-                    return(
-                        <div className={`course-card ${course.className}`} key={course.name}>
-                            <div className="course-icon">
-                                <Icon />
-                            </div>
-                            <div className="course-content">
-                                <h3>{course.name}</h3>
-                                <p>{course.description}</p>
-                             </div>
+            <div className='courses-venn'>
+                <div className="course-group junior-group">
+                    <div className="group-heading">
+                        <span className="group-number">01</span>
+                        <h2>Junior Courses</h2>
+                    </div>
+                        <div className="group-course-list">
+                            {juniorOnlyCourses.map((course)=>(
+                                <span key={course}>{course}</span>
+                            ))}
                         </div>
-                    )
-                })}
+                        <button 
+                        onClick={()=>{
+                        setSelectedGroup([
+                            ...juniorOnlyCourses,
+                           ])
+                            setSelectedGroupName('Junior')
+                            setSelectedGroupDescription(
+                                'These are th courses strictly for junior students.'
+                            )
+                        }}
+                        >
+                         Learn more
+                        </button>
+                </div>
+                
+                <div className="course-group both-group">
+                    <div className="group-heading">
+                        <span className="group-number">02</span>
+                        <h2>Both</h2>
+                    </div>
+                    <p className="group-description">
+                        courses available to both junior and senior students.
+                    </p>
+                    <div className="group-course-list">
+                        {bothCourses.map((course)=>(
+                            <span key={course}>{course}</span>
+                        ))}
+                    </div>
+                    <button 
+                        onClick={()=>{
+                        setSelectedGroup([
+                            ...bothCourses])
+                            setSelectedGroupName('Junior and Senior')
+                            setSelectedGroupDescription(
+                                'These are courses for both junior and senior students.'
+                            )
+                        }}
+                        >
+                            Learn more
+                        </button>
+                </div>
+                <div className="course-group senior-group">
+                    <div className="group-heading">
+                        <span className="group-number">03</span>
+                        <h2>Senior Courses</h2>
+                    </div>
+                    <div className="group-course-list">
+                            {seniorOnlyCourses.map((course)=>(
+                                <span key={course}>{course}</span>
+                            ))}
+                        </div>
+                        <button 
+                        onClick={()=>{
+                        setSelectedGroup([
+                            ...seniorOnlyCourses,
+                            ])
+                            setSelectedGroupName('Senior')
+                            setSelectedGroupDescription(
+                                'These are courses strictly for senior students.'
+                            )
+                        }}
+                        >
+                            Learn more
+                        </button>
+                    </div>
+                
+                
             </div>
         </main>
       

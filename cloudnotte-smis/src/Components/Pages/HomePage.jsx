@@ -1,8 +1,23 @@
 import {Link} from 'react-router'
+import {useState,useEffect} from 'react';
 import Header from '../Header'
 import './HomePage.css'
 
+
 function HomePage(){
+    const [students,setStudents] =useState([])
+    useEffect(()=>{
+    const fetchStudents = async ()=>{
+        const response = await fetch('https://dummyjson.com/users')
+        const data = await response.json()
+        setStudents(data.users)
+    }
+
+    fetchStudents()
+},[])
+const totalStudents=students.length
+const juniorStudents =students.slice(0,18).length
+const seniorStudents =students.slice(18,30).length
     return(
         <>
         <Header />
@@ -18,18 +33,18 @@ function HomePage(){
                 </div>
                 <div className="total-students">
                     <h3>Total Students:</h3>
-                    <p>450</p>
+                    <p>{totalStudents}</p>
                 </div>
                 <div className="students-container">
                     <div className="students-card">
-                        <h3>Student 1</h3>
+                        <h3>Junior Students</h3>
+                        <p>Total:{juniorStudents}</p>
                     </div>
                     <div className="students-card">
-                        <h3>Student 2</h3>
+                        <h3>Senior Students</h3>
+                        <p>Total:{seniorStudents}</p>
                     </div>
-                    <div className="students-card">
-                        <h3>Student 3</h3>
-                    </div>
+                    
                 </div>
             </section>
             <section className="courses-section">
@@ -37,16 +52,16 @@ function HomePage(){
                  <h2>Courses</h2>
                  <Link to="/courses">See all</Link>
             </div>
-            <div className="courses-container">
-                <div className="course-card">
-                    <h3>Course 1</h3>
+            <div className="courses-container-home">
+                <div className="course-card-home">
+                    <h3>Junior Courses</h3>
+                    <p>Find courses offered by junior students such as Mathematics,English,Civic Education,CRS etc...</p>
                 </div>
-                 <div className="course-card">
-                    <h3>Course 2</h3>
+                 <div className="course-card-home">
+                    <h3>Senior Courses</h3>
+                    <p>Find courses offered by senior students such as Biology,Further Mathematics,Literature,Mathematics etc... </p>
                 </div>
-                 <div className="course-card">
-                    <h3>Course 3</h3>
-                </div>
+                
             </div>
             </section>
         </div>

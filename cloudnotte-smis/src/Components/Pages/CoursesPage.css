@@ -1,473 +1,696 @@
 
-/* =========================
+/* =================================================
    COURSES PAGE
-========================= */
+================================================= */
 
 .courses-page {
     width: 92%;
-    max-width: 1150px;
-    margin: 35px auto 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 28px 0 50px;
+    box-sizing: border-box;
 }
 
 
-/* =========================
+/* =================================================
    PAGE HEADING
-========================= */
+================================================= */
 
-.courses-heading {
+.course-heading {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 30px;
-    margin-bottom: 30px;
+    gap: 20px;
+    margin-bottom: 24px;
 }
 
-.courses-label {
-    margin: 0 0 6px;
-    color: #cc0039;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-}
-
-.courses-heading h1 {
+.course-heading h1 {
     margin: 0;
-    color: #1f2937;
-    font-size: 32px;
+    color: #080D1A;
+    font-size: 28px;
+    font-weight: 750;
+    letter-spacing: -0.5px;
 }
 
 .courses-subtitle {
-    margin: 8px 0 0;
+    margin: 7px 0 0;
     color: #6b7280;
-    font-size: 16px;
-    margin-bottom: 5px;
+    font-size: 13px;
+    line-height: 1.5;
 }
-
-
-/* =========================
-   COURSE COUNT
-========================= */
 
 .course-count {
-    min-width: 50px;
-    padding: 14px 18px;
-    text-align: center;
-    background-color: #f3f4f6;
-    border-radius: 14px;
-    margin-bottom: 10px;
-}
+    flex-shrink: 0;
+    padding: 8px 13px;
 
-.course-count span {
-    display: block;
+    border: 1px solid #e5e7eb;
+    border-radius: 20px;
+
+    background-color: #ffffff;
     color: #cc0039;
-    font-size: 25px;
+
+    font-size: 11px;
     font-weight: 700;
-}
 
-.course-count p {
-    margin: 2px 0 0;
-    color: #6b7280;
-    font-size: 12px;
+    box-shadow:
+        0 4px 12px rgba(8, 13, 26, 0.05);
 }
 
 
-/* =========================
-   COURSE GRID
-========================= */
+/* =================================================
+   OVERVIEW CONTAINER
+================================================= */
 
-.courses-container {
+.courses-venn {
+    width: 100%;
+
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(3, 1fr);
+
+    border-radius: 20px;
+    overflow: hidden;
+
+    background-color: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    box-shadow:
+        0 14px 35px rgba(8, 13, 26, 0.08);
 }
 
 
-/* =========================
-   COURSE CARD
-========================= */
+/* =================================================
+   COURSE GROUPS
+================================================= */
 
-.course-card {
-    min-height: 175px;
-    padding: 18px;
-    border-radius: 16px;
+.course-group {
+    min-width: 0;
+    min-height: 330px;
+
+    padding: 28px 24px;
 
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
 
     box-sizing: border-box;
-
-    border: 1px solid rgba(0, 0, 0, 0.06);
-
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
-}
-
-.course-card:hover {
-    transform: translateY(-4px);
-
-    box-shadow:
-        0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
 
-/* =========================
-   ICON
-========================= */
+/* =================================================
+   JUNIOR - SOFT COOL GRAY
+================================================= */
 
-.course-icon {
-    width: 42px;
-    height: 42px;
+.junior-group {
+    background-color: #f1f3f5;
+    color: #111827;
+}
+
+
+/* =================================================
+   BOTH - DARK
+================================================= */
+
+.both-group {
+    background-color: #080D1A;
+    color: #ffffff;
+
+    border-left: 1px solid #e5e7eb;
+    border-right: 1px solid #e5e7eb;
+}
+
+
+/* =================================================
+   SENIOR - SOFT COOL GRAY
+================================================= */
+
+.senior-group {
+    background-color: #eef1f4;
+    color: #111827;
+}
+
+
+/* =================================================
+   GROUP HEADING
+================================================= */
+
+.group-heading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    margin-bottom: 17px;
+}
+
+.group-heading h2 {
+    margin: 0;
+
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+}
+
+
+/* Junior + Senior headings */
+
+.junior-group .group-heading h2,
+.senior-group .group-heading h2 {
+    color: #111827;
+}
+
+
+/* Both heading */
+
+.both-group .group-heading h2 {
+    color: #ffffff;
+}
+
+
+/* =================================================
+   NUMBER
+================================================= */
+
+.group-number {
+    width: 29px;
+    height: 29px;
+
+    flex-shrink: 0;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    border-radius: 12px;
+    border-radius: 50%;
 
-    background-color: rgba(255, 255, 255, 0.75);
+    font-size: 9px;
+    font-weight: 800;
+}
+
+
+/* Junior + Senior number */
+
+.junior-group .group-number,
+.senior-group .group-number {
+    background-color: #cc0039;
+    color: #ffffff;
+}
+
+
+/* Both number */
+
+.both-group .group-number {
+    background-color: #cc0039;
+    color: #ffffff;
+}
+
+
+/* =================================================
+   DESCRIPTION
+================================================= */
+
+.group-description {
+    margin: -3px 0 17px;
+
+    color: #6b7280;
+
+    font-size: 11px;
+    line-height: 1.55;
+}
+
+
+/* Both description */
+
+.both-group .group-description {
+    color: rgba(255, 255, 255, 0.68);
+}
+
+
+/* =================================================
+   COURSE LIST
+================================================= */
+
+.group-course-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 7px;
+}
+
+
+/* =================================================
+   COURSE ITEMS
+================================================= */
+
+.group-course-list span {
+    display: inline-flex;
+    align-items: center;
+
+    min-height: 28px;
+
+    padding: 6px 9px;
+
+    box-sizing: border-box;
+
+    border-radius: 7px;
+
+    font-size: 10px;
+    line-height: 1.2;
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.group-course-list span:hover {
+    transform: translateY(-2px);
+}
+
+
+/* =================================================
+   JUNIOR COURSE ITEMS
+================================================= */
+
+.junior-group .group-course-list span {
+    background-color: #ffffff;
+
+    border: 1px solid #dfe3e7;
+
+    color: #cc0039;
+
+    box-shadow:
+        0 2px 6px rgba(8, 13, 26, 0.04);
+}
+
+.junior-group .group-course-list span:hover {
+    border-color: #cc0039;
+}
+
+
+/* =================================================
+   BOTH COURSE ITEMS - DARK
+================================================= */
+
+.both-group .group-course-list span {
+    background-color: rgba(255, 255, 255, 0.07);
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+
+    color: #ffffff;
+}
+
+.both-group .group-course-list span:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+
+/* =================================================
+   SENIOR COURSE ITEMS
+================================================= */
+
+.senior-group .group-course-list span {
+    background-color: #ffffff;
+
+    border: 1px solid #dfe3e7;
+
+    color: #cc0039;
+
+    box-shadow:
+        0 2px 6px rgba(8, 13, 26, 0.04);
+}
+
+.senior-group .group-course-list span:hover {
+    border-color: #cc0039;
+}
+
+
+/* =================================================
+   LEARN MORE BUTTON
+================================================= */
+
+.course-group button {
+    align-self: flex-start;
+
+    margin-top: auto;
+
+    padding: 7px 10px;
+
+    border-radius: 6px;
+
+    font-family: inherit;
+    font-size: 9px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        background-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+/* =================================================
+   JUNIOR BUTTON
+================================================= */
+
+.junior-group button {
+    background-color: #cc0039;
+    color: #ffffff;
+
+    border: 1px solid #cc0039;
+}
+
+.junior-group button:hover {
+    background-color: #a90031;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 4px 9px rgba(204, 0, 57, 0.25);
+}
+
+
+/* =================================================
+   BOTH BUTTON
+================================================= */
+
+.both-group button {
+    background-color: #cc0039;
+    color: #ffffff;
+
+    border: 1px solid #cc0039;
+}
+
+.both-group button:hover {
+    background-color: #a90031;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 4px 9px rgba(204, 0, 57, 0.25);
+}
+
+
+/* =================================================
+   SENIOR BUTTON
+================================================= */
+
+.senior-group button {
+    background-color: #cc0039;
+    color: #ffffff;
+
+    border: 1px solid #cc0039;
+}
+
+.senior-group button:hover {
+    background-color: #a90031;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 4px 9px rgba(204, 0, 57, 0.25);
+}
+
+
+/* =================================================
+   SELECTED COURSES / LEARN MORE VIEW
+================================================= */
+
+.courses-container {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    gap: 18px;
+
+    margin-top: 10px;
+}
+
+
+/* =================================================
+   COURSE CARD
+================================================= */
+
+.course-card {
+    min-width: 0;
+    min-height: 190px;
+
+    padding: 20px;
+
+    display: flex;
+    flex-direction: column;
+
+    box-sizing: border-box;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 15px;
+
+    background-color: #ffffff;
+
+    box-shadow:
+        0 7px 20px rgba(8, 13, 26, 0.06);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.course-card:hover {
+    transform: translateY(-4px);
+
+    border-color: #d1d5db;
+
+    box-shadow:
+        0 12px 26px rgba(8, 13, 26, 0.10);
+}
+
+
+/* =================================================
+   COURSE ICON
+================================================= */
+
+.course-icon {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 15px;
+
+    border-radius: 10px;
+
+    background-color: #080D1A;
+
+    color: #ffffff;
 }
 
 .course-icon svg {
-    width: 22px;
-    height: 22px;
+    width: 18px;
+    height: 18px;
 }
 
 
-/* =========================
-   CARD TEXT
-========================= */
+/* =================================================
+   COURSE CONTENT
+================================================= */
 
 .course-content {
-    margin-top: 18px;
+    min-width: 0;
 }
 
 .course-content h3 {
     margin: 0 0 7px;
 
-    color: #1f2937;
-    font-size: 16px;
-    line-height: 1.2;
+    color: #111827;
+
+    font-size: 15px;
+    font-weight: 750;
 }
 
 .course-content p {
     margin: 0;
 
-    color: #4b5563;
-    font-size: 12px;
-    line-height: 1.55;
+    color: #6b7280;
+
+    font-size: 11px;
+    line-height: 1.6;
 }
 
 
-/* =========================
-   COURSE COLOURS
-========================= */
+/* =================================================
+   COURSE CARD ACCENT
+================================================= */
 
-/* Mathematics */
-.mathematics {
-    background-color: #fff1f2;
-}
-
-.mathematics .course-icon {
-    color: #e11d48;
+.course-card:hover .course-icon {
+    background-color: #cc0039;
 }
 
 
-/* English */
-.english {
-    background-color: #eff6ff;
+/* =================================================
+   BACK BUTTON
+================================================= */
+
+.back-button {
+    margin-bottom: 20px;
+
+    padding: 8px 12px;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 7px;
+
+    background-color: #ffffff;
+    color: #111827;
+
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
 }
 
-.english .course-icon {
-    color: #2563eb;
-}
+.back-button:hover {
+    background-color: #080D1A;
+    color: #ffffff;
 
-
-/* Civic Education */
-.civic {
-    background-color: #f0fdf4;
-}
-
-.civic .course-icon {
-    color: #16a34a;
-}
-
-
-/* Further Mathematics */
-.further-mathematics {
-    background-color: #f5f3ff;
-}
-
-.further-mathematics .course-icon {
-    color: #7c3aed;
-}
-
-
-/* Biology */
-.biology {
-    background-color: #ecfdf5;
-}
-
-.biology .course-icon {
-    color: #059669;
+    transform: translateX(-2px);
 }
 
 
-/* Chemistry */
-.chemistry {
-    background-color: #ecfeff;
-}
-
-.chemistry .course-icon {
-    color: #0891b2;
-}
-
-
-/* Physics */
-.physics {
-    background-color: #eff6ff;
-}
-
-.physics .course-icon {
-    color: #1d4ed8;
-}
-
-
-/* Government */
-.government {
-    background-color: #fefce8;
-}
-
-.government .course-icon {
-    color: #ca8a04;
-}
-
-
-/* Literature */
-.literature {
-    background-color: #fdf4ff;
-}
-
-.literature .course-icon {
-    color: #a21caf;
-}
-
-
-/* Sociology */
-.sociology {
-    background-color: #fff7ed;
-}
-
-.sociology .course-icon {
-    color: #ea580c;
-}
-
-
-/* Food and Nutrition */
-.food {
-    background-color: #fff7ed;
-}
-
-.food .course-icon {
-    color: #c2410c;
-}
-
-
-/* Agricultural Science */
-.agriculture {
-    background-color: #f0fdf4;
-}
-
-.agriculture .course-icon {
-    color: #15803d;
-}
-
-
-/* CRS */
-.crs {
-    background-color: #f5f3ff;
-}
-
-.crs .course-icon {
-    color: #6d28d9;
-}
-
-
-/* Technical Drawing */
-.technical {
-    background-color: #f3f4f6;
-}
-
-.technical .course-icon {
-    color: #374151;
-}
-
-
-/* Cosmetology */
-.cosmetology {
-    background-color: #fdf2f8;
-}
-
-.cosmetology .course-icon {
-    color: #db2777;
-}
-
-
-/* Marketing */
-.marketing {
-    background-color: #fff1f2;
-}
-
-.marketing .course-icon {
-    color: #be123c;
-}
-
-
-/* Economics */
-.economics {
-    background-color: #ecfdf5;
-}
-
-.economics .course-icon {
-    color: #047857;
-}
-
-
-/* Geography */
-.geography {
-    background-color: #ecfdf5;
-}
-
-.geography .course-icon {
-    color: #16a34a;
-}
-
-
-/* Music */
-.music {
-    background-color: #f5f3ff;
-}
-
-.music .course-icon {
-    color: #7c3aed;
-}
-
-
-/* Accounting */
-.accounting {
-    background-color: #eff6ff;
-}
-
-.accounting .course-icon {
-    color: #2563eb;
-}
-
-
-/* =========================
+/* =================================================
    TABLET
-========================= */
+================================================= */
 
-@media (max-width: 850px) {
+@media (max-width: 900px) {
+
+    .courses-page {
+        width: 94%;
+    }
+
+    .courses-venn {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .senior-group {
+        grid-column: 1 / -1;
+
+        border-top: 1px solid #dfe3e7;
+    }
 
     .courses-container {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-
-    .courses-page {
-        width: 94%;
-    }
 }
 
 
-/* =========================
+/* =================================================
    PHONE
-========================= */
+================================================= */
 
-@media (max-width: 550px) {
+@media (max-width: 650px) {
 
     .courses-page {
-        width: 92%;
-        margin-top: 25px;
+        width: 94%;
+        padding-top: 20px;
     }
 
-    .courses-heading {
+    .course-heading {
         align-items: flex-start;
-        margin-bottom: 22px;
     }
 
-    .courses-heading h1 {
-        font-size: 26px;
+    .course-heading h1 {
+        font-size: 23px;
     }
 
     .courses-subtitle {
-        font-size: 13px;
+        font-size: 11px;
     }
 
-    .course-count {
-        min-width: 65px;
-        padding: 10px 12px;
+    .courses-venn {
+        grid-template-columns: 1fr;
+
+        border-radius: 15px;
     }
 
-    .course-count span {
-        font-size: 21px;
+    .course-group {
+        min-height: auto;
+
+        padding: 23px 20px;
+    }
+
+    .junior-group,
+    .both-group,
+    .senior-group {
+        border: none;
+    }
+
+    .both-group {
+        border-top: 1px solid rgba(255, 255, 255, 0.12);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .senior-group {
+        grid-column: auto;
     }
 
     .courses-container {
         grid-template-columns: 1fr;
+
+        gap: 14px;
+    }
+
+    .course-card {
+        min-height: 0;
+
+        padding: 18px;
+    }
+}
+
+
+/* =================================================
+   SMALL PHONE
+================================================= */
+
+@media (max-width: 400px) {
+
+    .course-heading {
+        flex-direction: column;
+
         gap: 12px;
     }
 
-    .course-card {
-        min-height: 155px;
-        padding: 16px;
+    .course-count {
+        align-self: flex-start;
+    }
+
+    .course-group {
+        padding: 20px 16px;
+    }
+
+    .group-heading h2 {
+        font-size: 16px;
+    }
+
+    .group-course-list {
+        gap: 5px;
+    }
+
+    .group-course-list span {
+        font-size: 9px;
+
+        padding: 6px 8px;
+    }
+
+    .course-group button {
+        width: 100%;
+
+        text-align: center;
     }
 }
-
-
-/* =========================
-   VERY SMALL PHONES
-========================= */
-
-@media (max-width: 380px) {
-
-    .courses-page {
-        width: 94%;
-    }
-
-    .courses-heading h1 {
-        font-size: 23px;
-    }
-
-    .courses-label {
-        font-size: 10px;
-    }
-
-    .courses-subtitle {
-        font-size: 12px;
-    }
-
-    .course-card {
-        min-height: 145px;
-        padding: 14px;
-    }
-
-    .course-icon {
-        width: 38px;
-        height: 38px;
-    }
-
-    .course-icon svg {
-        width: 20px;
-        height: 20px;
-    }
-
-    .course-content h3 {
-        font-size: 15px;
-    }
-
-    .course-content p {
-        font-size: 11px;
-    }
-}
-
