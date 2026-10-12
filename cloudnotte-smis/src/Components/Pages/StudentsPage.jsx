@@ -1,4 +1,4 @@
-import {useState,useEffect} from 'react'
+import {useState,useEffect,useRef} from 'react'
 import {UserRound, MapPin, Mail} from 'lucide-react'
 import './StudentsPage.css'
 function StudentsPage(){
@@ -6,6 +6,7 @@ function StudentsPage(){
     const [students,setStudents]=useState([])
     const [selectedClass,setSelectedClass]=useState(null)
     const [selectedStudent,setSelectedStudent]=useState(null)
+    const profileRef =useRef(null)
     const fetchStudents=async ()=>{
         const response=await fetch('https://dummyjson.com/users')
         const data =await response.json()
@@ -15,6 +16,14 @@ function StudentsPage(){
     useEffect(()=>{
         fetchStudents()
     },[])
+    useEffect(() => {
+    if (selectedStudent && profileRef.current) {
+        profileRef.current.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        })
+    }
+}, [selectedStudent])
     const classes={
         "JSS 1" :students.slice(0,5),
         "JSS 2" :students.slice(5,12),
@@ -65,7 +74,7 @@ function StudentsPage(){
                         </table>
                 </div>
                     {selectedStudent &&(
-                        <div className="student-profile-card">
+                        <div className="student-profile-card" ref={profileRef}>
                             <button className="close-profile" onClick={()=>setSelectedStudent(null)}>X</button>
                             <img src={selectedStudent.image} className="table-student-image" />
                             <h2>{selectedStudent.lastName} {selectedStudent.firstName}</h2>
