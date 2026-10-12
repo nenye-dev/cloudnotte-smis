@@ -446,4 +446,22 @@
     .class-students-table {
         border-radius: 10px;
     }
+    
+    /* Put the student profile below the table on phones */
+    .students-content {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .students-content .class-students-table {
+        width: 100%;
+        flex: none;
+    }
+
+    .student-profile-card {
+        width: 100%;
+        max-width: 100%;
+        flex-shrink: 1;
+    }
+
 }
