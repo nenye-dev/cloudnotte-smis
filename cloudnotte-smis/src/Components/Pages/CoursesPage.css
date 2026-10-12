@@ -694,3 +694,76 @@
         text-align: center;
     }
 }
+
+/* Modal overlay */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+    box-sizing: border-box;
+
+    background: rgba(8, 13, 26, 0.65);
+    backdrop-filter: blur(3px);
+}
+
+/* Reuse the original courses page inside the modal */
+.modal-page {
+    position: relative;
+
+    width: 100%;
+    max-width: 1200px;
+    max-height: 90vh;
+
+    margin: 0;
+    padding: 30px;
+
+    overflow-y: auto;
+    box-sizing: border-box;
+
+    background: #ffffff;
+    border-radius: 16px;
+
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+/* Close button */
+.modal-close {
+    display: block;
+    margin-left: auto;
+    margin-bottom: 12px;
+
+    width: 36px;
+    height: 36px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: #f3f4f6;
+    color: #111827;
+
+    font-size: 26px;
+    cursor: pointer;
+}
+
+.modal-close:hover {
+    background: #cc0039;
+    color: white;
+}
+
+@media (max-width: 600px) {
+    .modal-overlay {
+        padding: 10px;
+    }
+
+    .modal-page {
+        max-height: 92vh;
+        padding: 20px 14px;
+        border-radius: 12px;
+    }
+}

@@ -30,7 +30,10 @@ function StudentsPage(){
             
             <div className="students-page">
                 <button className="back-button"
-                    onClick={()=>setSelectedClass(null)}
+                    onClick={()=>{
+                        setSelectedStudent(null)
+                        setSelectedClass(null)
+                    }}
                 >
                      ← Back to Classes
                 </button>

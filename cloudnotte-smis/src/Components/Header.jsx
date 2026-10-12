@@ -5,6 +5,11 @@ function Header({isMenuOpen,setIsMenuOpen}){
     const handleMenuClick =()=>{
         setIsMenuOpen(!isMenuOpen)
     }
+    const handleNavigation=()=>{
+        if(window.innerWidth <=768 ){
+            setIsMenuOpen(false)
+        }
+    }
     return(
     <>
         <header className="header">
@@ -38,25 +43,25 @@ function Header({isMenuOpen,setIsMenuOpen}){
                 <div className="menu-links">
                     <Link 
                         to ="/"
-                        onClick={()=>setIsMenuOpen(false)}
+                        onClick={handleNavigation}
                     >
                         Home
                     </Link>
                     <Link 
                         to ="students"
-                        onClick={()=>setIsMenuOpen(false)}
+                        onClick={handleNavigation}
                     >
                         Students
                     </Link>
                     <Link 
                         to ="courses"
-                        onClick={()=>setIsMenuOpen(false)}
+                        onClick={handleNavigation}
                     >
                         Courses
                     </Link>
                     <Link 
                         to ="about"
-                        onClick={()=>setIsMenuOpen(false)}
+                        onClick={handleNavigation}
                     >
                         About
                     </Link>
