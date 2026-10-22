@@ -1,9 +1,9 @@
 import {Routes,Route} from 'react-router';
 import Layout from './Components/Layout';
-import HomePage from './Components/Pages/HomePage';
-import StudentsPage from './Components/Pages/StudentsPage'
-import CoursesPage from './Components/Pages/CoursesPage'
-import AboutPage from './Components/Pages/AboutPage'
+import HomePage from './Components/Pages/home/HomePage';
+import StudentsPage from './Components/Pages/students/StudentsPage'
+import CoursesPage from './Components/Pages/courses/CoursesPage'
+import AboutPage from './Components/Pages/about/AboutPage'
 import './App.css'
 
 function App() {
