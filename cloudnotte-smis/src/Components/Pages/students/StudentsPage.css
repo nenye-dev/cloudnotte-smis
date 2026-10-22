@@ -137,7 +137,24 @@
     color: #080D1A;
     font-size: 28px;
 }
+.search-bar{
+    margin: 20px 0;
+    max-width: 250px;
+}
 
+.search-bar input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #d6d6d6;
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+}
+
+.search-bar input:focus {
+    border-color:#080D1A;
+    box-shadow: 0 0 0 3px rgba(123, 91, 67, 0.12);
+}
 
 /* ================================
    Students Table Container
