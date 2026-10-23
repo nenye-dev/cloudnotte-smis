@@ -1,6 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { UserRound, Mail, MapPin, CirclePlus, X, Trash } from "lucide-react";
+import {
+  UserRound,
+  Mail,
+  MapPin,
+  CirclePlus,
+  X,
+  Trash,
+  SquarePen,
+} from "lucide-react";
 function IndividualClassPage({
   profileRef,
   classes,
@@ -10,6 +18,7 @@ function IndividualClassPage({
   setSelectedClass,
   onStudentAdded,
   onStudentDeleted,
+  onStudentUpdated,
 }) {
   const [searchTerm, setSearchTerm] = useState("");
   const classStudents = classes[selectedClass] || [];
@@ -21,8 +30,18 @@ function IndividualClassPage({
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [notification, setNotification] = useState(null);
+  useEffect(() => {
+    if (!notification) return;
+
+    const timer = setTimeout(() => {
+      setNotification(null);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [notification]);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [studentToDelete, setStudentToDelete] = useState(null);
+  const [studentToEdit, setStudentToEdit] = useState(null);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -52,7 +71,9 @@ function IndividualClassPage({
     const allStudents = Object.values(classes).flat();
 
     const emailExists = allStudents.some(
-      (student) => student.email?.trim().toLowerCase() === normalizedEmail,
+      (student) =>
+        student.id !== studentToEdit?.id &&
+        student.email?.trim().toLowerCase() === normalizedEmail,
     );
 
     if (emailExists) {
@@ -63,7 +84,7 @@ function IndividualClassPage({
       return;
     }
     const namePattern = /^[a-zA-ZÀ-ÿ' -]+$/;
-    const phonePattern = /^\+?[0-9 ]{10,15}$/;
+    const phonePattern = /^\+?[\d\s()-]{10,20}$/;
 
     if (
       !namePattern.test(formData.firstName.trim()) ||
@@ -77,10 +98,17 @@ function IndividualClassPage({
       return;
     }
 
-    if (!phonePattern.test(formData.phone.trim())) {
+    const normalizedPhone = formData.phone.trim();
+    const digitsOnly = normalizedPhone.replace(/\D/g, "");
+
+    if (
+      !phonePattern.test(normalizedPhone) ||
+      digitsOnly.length < 10 ||
+      digitsOnly.length > 15
+    ) {
       setNotification({
         type: "error",
-        message: "Enter a valid phone number format.",
+        message: "Enter a valid phone number containing 10–15 digits.",
       });
       return;
     }
@@ -128,9 +156,8 @@ function IndividualClassPage({
       return;
     }
     if (
-      formData.image &&
-      (!(formData.image instanceof File) ||
-        !formData.image.type.startsWith("image/"))
+      formData.image instanceof File &&
+      !formData.image.type.startsWith("image/")
     ) {
       setNotification({
         type: "error",
@@ -141,7 +168,9 @@ function IndividualClassPage({
     setLoading(true);
 
     const studentData = {
-      studentId: `STU-${Date.now()}`,
+      studentId: studentToEdit
+        ? studentToEdit.studentId || studentToEdit.id
+        : `STU-${Date.now()}`,
       firstName: formData.firstName.trim(),
       lastName: formData.lastName.trim(),
       email: formData.email.trim(),
@@ -157,32 +186,65 @@ function IndividualClassPage({
     };
 
     try {
-      const response = await axios.post(
-        "https://dummyjson.com/users/add",
-        studentData,
-      );
+      let response;
 
-      const newStudent = {
-        ...response.data,
-        ...studentData,
+      if (studentToEdit) {
+        // Update an existing student
+        response = await axios.put(
+          `https://dummyjson.com/users/${studentToEdit.id}`,
+          studentData,
+        );
 
-        address: studentData.address,
-        image:
-          formData.image instanceof File
-            ? URL.createObjectURL(formData.image)
-            : response.data.image || "",
-        id: response.data.id,
-        isLocal: true,
-      };
+        const updatedStudent = {
+          ...studentToEdit,
+          ...response.data,
+          ...studentData,
+          id: studentToEdit.id,
+          address: studentData.address,
+          image:
+            formData.image instanceof File
+              ? URL.createObjectURL(formData.image)
+              : studentToEdit.image || "",
+          isLocal: studentToEdit.isLocal || false,
+        };
 
-      onStudentAdded(newStudent, selectedClass);
+        onStudentUpdated(updatedStudent);
 
-      setNotification({
-        type: "success",
-        message: "Added successfully!",
-      });
+        setSelectedStudent(updatedStudent);
+
+        setNotification({
+          type: "success",
+          message: "Student updated successfully!",
+        });
+      } else {
+        // Add a new student
+        response = await axios.post(
+          "https://dummyjson.com/users/add",
+          studentData,
+        );
+
+        const newStudent = {
+          ...response.data,
+          ...studentData,
+          address: studentData.address,
+          image:
+            formData.image instanceof File
+              ? URL.createObjectURL(formData.image)
+              : response.data.image || "",
+          id: response.data.id,
+          isLocal: true,
+        };
+
+        onStudentAdded(newStudent, selectedClass);
+
+        setNotification({
+          type: "success",
+          message: "Added successfully!",
+        });
+      }
 
       setShowModal(false);
+      setStudentToEdit(null);
 
       setFormData({
         firstName: "",
@@ -198,16 +260,19 @@ function IndividualClassPage({
         image: "",
       });
     } catch (error) {
-      console.error("Failed to add student:", error);
+      console.error("Failed to save student:", error);
 
       setNotification({
         type: "error",
-        message: "Failed to add student. Please try again.",
+        message: studentToEdit
+          ? "Failed to update student. Please try again."
+          : "Failed to add student. Please try again.",
       });
     } finally {
       setLoading(false);
     }
   };
+
   const confirmDeleteStudent = (student) => {
     setStudentToDelete(student);
     setShowDeleteConfirm(true);
@@ -241,6 +306,25 @@ function IndividualClassPage({
       });
     }
   };
+  const handleEditStudent = async (studentToEdit) => {
+    setNotification(null);
+    setStudentToEdit(studentToEdit);
+
+    setFormData({
+      firstName: studentToEdit.firstName || "",
+      lastName: studentToEdit.lastName || "",
+      email: studentToEdit.email || "",
+      age: String(studentToEdit.age ?? ""),
+      gender: studentToEdit.gender || "",
+      phone: studentToEdit.phone || "",
+      city: studentToEdit.address?.city || "",
+      state: studentToEdit.address?.state || "",
+      height: String(studentToEdit.height ?? ""),
+      weight: String(studentToEdit.weight ?? ""),
+      image: studentToEdit.image || "",
+    });
+    setShowModal(true);
+  };
   return (
     <div className="students-page">
       <button
@@ -258,6 +342,20 @@ function IndividualClassPage({
           className="add-student-button"
           onClick={() => {
             setNotification(null);
+            setStudentToEdit(null);
+            setFormData({
+              firstName: "",
+              lastName: "",
+              email: "",
+              age: "",
+              gender: "",
+              phone: "",
+              city: "",
+              state: "",
+              height: "",
+              weight: "",
+              image: "",
+            });
             setShowModal(true);
           }}
         >
@@ -266,15 +364,11 @@ function IndividualClassPage({
         </button>
       </div>
       {notification && (
-        <div className={`notification ${notification.type}`} role="status">
+        <div
+          className={`notification ${notification.type}`}
+          role={notification.type === "error" ? "alert" : "status"}
+        >
           {notification.message}
-          <button
-            type="button"
-            onClick={() => setNotification(null)}
-            aria-label="Dismiss notification"
-          >
-            <X size={16} />
-          </button>
         </div>
       )}
 
@@ -355,6 +449,14 @@ function IndividualClassPage({
         {selectedStudent && (
           <div className="student-profile-card" ref={profileRef}>
             <button
+              className="edit-button"
+              type="button"
+              onClick={() => handleEditStudent(selectedStudent)}
+              aria-label="Edit-student"
+            >
+              <SquarePen />
+            </button>
+            <button
               className="close-profile"
               onClick={() => setSelectedStudent(null)}
             >
@@ -419,7 +521,7 @@ function IndividualClassPage({
             onClick={(event) => event.stopPropagation()}
           >
             <div className="modal-header">
-              <h2>Add New Student</h2>
+              <h2>{studentToEdit ? "EditStudent" : "Add New Student"}</h2>
 
               <button
                 type="button"
@@ -486,7 +588,7 @@ function IndividualClassPage({
                   placeholder="Phone:+[---] [---] [---] [----]"
                   value={formData.phone}
                   onChange={handleChange}
-                  pattern="(0[789][01][0-9]{8}|\+234[789][01][0-9]{8})"
+                  pattern="[\+]?[0-9\s()\-]{10,20}"
                   title="Enter a phone number containing 10–15 digits, optionally with spaces or a leading +."
                   required
                 />
@@ -569,7 +671,9 @@ function IndividualClassPage({
                 {loading ? (
                   <>
                     <span className="loader" />
-                    Adding student...
+                    {studentToEdit
+                      ? "Updating student details..."
+                      : "Adding student"}
                   </>
                 ) : (
                   "Done"

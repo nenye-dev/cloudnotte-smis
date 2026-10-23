@@ -2,16 +2,43 @@ import { useState, useEffect, useRef } from "react";
 import "./StudentsPage.css";
 import IndividualClassPage from "./IndividualClassPage";
 import axios from "axios";
+function readFromStorage(key, fallback) {
+  try {
+    const savedData = localStorage.getItem(key);
+    return savedData ? JSON.parse(savedData) : fallback;
+  } catch (error) {
+    console.error("Error reading localStorage:", error);
+    return fallback;
+  }
+}
 function StudentsPage() {
-  const [students, setStudents] = useState([]);
+  const [students, setStudents] = useState(() =>
+    readFromStorage("misStudents", []),
+  );
   const [selectedClass, setSelectedClass] = useState(null);
   const [selectedStudent, setSelectedStudent] = useState(null);
-  const [addedStudentsByClass, setAddedStudentsByClass] = useState({});
-  const [deletedStudentIds, setDeletedStudentIds] = useState([]);
+  const [addedStudentsByClass, setAddedStudentsByClass] = useState(() =>
+    readFromStorage("misAddedStudents", {}),
+  );
+  const [deletedStudentIds, setDeletedStudentIds] = useState(() =>
+    readFromStorage("misDeletedStudentIds", []),
+  );
   const handleStudentDeleted = (studentId) => {
     setDeletedStudentIds((previous) =>
       previous.includes(studentId) ? previous : [...previous, studentId],
     );
+
+    setAddedStudentsByClass((previous) => {
+      const updated = {};
+
+      Object.keys(previous).forEach((className) => {
+        updated[className] = previous[className].filter(
+          (student) => student.id !== studentId,
+        );
+      });
+
+      return updated;
+    });
   };
 
   const profileRef = useRef(null);
@@ -21,8 +48,27 @@ function StudentsPage() {
     console.log(response);
   };
   useEffect(() => {
-    fetchStudents();
-  }, []);
+    if (students.length === 0) {
+      fetchStudents();
+    }
+  }, [students.length]);
+  useEffect(() => {
+    localStorage.setItem("misStudents", JSON.stringify(students));
+  }, [students]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "misAddedStudents",
+      JSON.stringify(addedStudentsByClass),
+    );
+  }, [addedStudentsByClass]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "misDeletedStudentIds",
+      JSON.stringify(deletedStudentIds),
+    );
+  }, [deletedStudentIds]);
   useEffect(() => {
     if (selectedStudent && profileRef.current) {
       profileRef.current.scrollIntoView({
@@ -58,6 +104,25 @@ function StudentsPage() {
       [className]: [...(previous[className] || []), newStudent],
     }));
   };
+  const handleStudentUpdated = (updatedStudent) => {
+    setStudents((previous) =>
+      previous.map((student) =>
+        student.id === updatedStudent.id ? updatedStudent : student,
+      ),
+    );
+
+    setAddedStudentsByClass((previous) => {
+      const updated = {};
+
+      Object.keys(previous).forEach((className) => {
+        updated[className] = previous[className].map((student) =>
+          student.id === updatedStudent.id ? updatedStudent : student,
+        );
+      });
+
+      return updated;
+    });
+  };
   if (selectedClass) {
     return (
       <>
@@ -70,6 +135,7 @@ function StudentsPage() {
           setSelectedClass={setSelectedClass}
           onStudentAdded={handleStudentAdded}
           onStudentDeleted={handleStudentDeleted}
+          onStudentUpdated={handleStudentUpdated}
         />
       </>
     );
