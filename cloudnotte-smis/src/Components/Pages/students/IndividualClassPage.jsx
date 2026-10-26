@@ -1,14 +1,23 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import {
-  UserRound,
-  Mail,
-  MapPin,
-  CirclePlus,
-  X,
-  Trash,
-  SquarePen,
-} from "lucide-react";
+import StudentTable from "./StudentTable";
+import FirstPart from "./FirstPart";
+import SearchBar from "./SearchBar";
+import Notification from "./Notification";
+import FormModal from "./FormModal";
+import DeleteModal from "./DeleteModal";
+
+function convertImageToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(reader.error);
+
+    reader.readAsDataURL(file);
+  });
+}
+
 function IndividualClassPage({
   profileRef,
   classes,
@@ -55,6 +64,19 @@ function IndividualClassPage({
     weight: "",
     image: "",
   });
+  const [imagePreview, setImagePreview] = useState("");
+
+  useEffect(() => {
+    if (!(formData.image instanceof File)) {
+      setImagePreview("");
+      return;
+    }
+
+    const previewUrl = URL.createObjectURL(formData.image);
+    setImagePreview(previewUrl);
+
+    return () => URL.revokeObjectURL(previewUrl);
+  }, [formData.image]);
   const handleChange = (event) => {
     const { name, value, files } = event.target;
     setFormData((previous) => ({
@@ -190,10 +212,21 @@ function IndividualClassPage({
 
       if (studentToEdit) {
         // Update an existing student
-        response = await axios.put(
-          `https://dummyjson.com/users/${studentToEdit.id}`,
-          studentData,
-        );
+        if (!studentToEdit.isLocal) {
+          response = await axios.put(
+            `https://dummyjson.com/users/${studentToEdit.id}`,
+            studentData,
+          );
+        } else {
+          // Locally added students do not need an API request
+          response = { data: studentData };
+        }
+
+        let image = studentToEdit.image || "";
+
+        if (formData.image instanceof File) {
+          image = await convertImageToBase64(formData.image);
+        }
 
         const updatedStudent = {
           ...studentToEdit,
@@ -201,10 +234,7 @@ function IndividualClassPage({
           ...studentData,
           id: studentToEdit.id,
           address: studentData.address,
-          image:
-            formData.image instanceof File
-              ? URL.createObjectURL(formData.image)
-              : studentToEdit.image || "",
+          image,
           isLocal: studentToEdit.isLocal || false,
         };
 
@@ -223,19 +253,24 @@ function IndividualClassPage({
           studentData,
         );
 
+        let image = response.data.image || "";
+
+        if (formData.image instanceof File) {
+          image = await convertImageToBase64(formData.image);
+        }
+
         const newStudent = {
           ...response.data,
           ...studentData,
           address: studentData.address,
-          image:
-            formData.image instanceof File
-              ? URL.createObjectURL(formData.image)
-              : response.data.image || "",
-          id: response.data.id,
+          image,
+          id: `local-${Date.now()}`,
           isLocal: true,
         };
 
         onStudentAdded(newStudent, selectedClass);
+        console.log("New student:", newStudent);
+        console.log("Class selected:", selectedClass);
 
         setNotification({
           type: "success",
@@ -336,396 +371,44 @@ function IndividualClassPage({
       >
         ← Back to Classes
       </button>
-      <div className="head1">
-        <h1>{selectedClass}</h1>
-        <button
-          className="add-student-button"
-          onClick={() => {
-            setNotification(null);
-            setStudentToEdit(null);
-            setFormData({
-              firstName: "",
-              lastName: "",
-              email: "",
-              age: "",
-              gender: "",
-              phone: "",
-              city: "",
-              state: "",
-              height: "",
-              weight: "",
-              image: "",
-            });
-            setShowModal(true);
-          }}
-        >
-          <CirclePlus />
-          Add New Student
-        </button>
-      </div>
-      {notification && (
-        <div
-          className={`notification ${notification.type}`}
-          role={notification.type === "error" ? "alert" : "status"}
-        >
-          {notification.message}
-        </div>
-      )}
+      <FirstPart
+        selectedClass={selectedClass}
+        setNotification={setNotification}
+        setStudentToEdit={setStudentToEdit}
+        setFormData={setFormData}
+        setShowModal={setShowModal}
+      />
+      {notification && <Notification notification={notification} />}
 
-      <div className="search-bar">
-        <input
-          type="text"
-          placeholder="Search students by name"
-          value={searchTerm}
-          onChange={(event) => setSearchTerm(event.target.value)}
-        />
-      </div>
-      <div className="students-content">
-        <div className="class-students-table">
-          <table className="student-table">
-            <thead>
-              <tr>
-                <th>S/N</th>
-                <th>Student Passport</th>
-                <th>
-                  <UserRound />
-                  Name
-                </th>
-                <th>
-                  <Mail />
-                  Email
-                </th>
-                <th>
-                  <MapPin />
-                  Address
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredStudents.length > 0 ? (
-                filteredStudents.map((student, index) => (
-                  <tr
-                    key={student.id}
-                    onClick={() => setSelectedStudent(student)}
-                  >
-                    <td>{index + 1}</td>
-                    <td>
-                      <img
-                        src={student.image}
-                        className="table-student-image"
-                        alt="Student passport"
-                      />
-                    </td>
-                    <td>
-                      {student.lastName} {student.firstName}
-                    </td>
-                    <td>{student.email}</td>
-                    <td>
-                      {student.address.city},{student.address.state}
-                    </td>
-                    <td>
-                      <button
-                        className="delete-icon"
-                        type="button"
-                        onClick={(event) => {
-                          event.stopPropagation();
-                          confirmDeleteStudent(student);
-                        }}
-                        aria-label={`Delete ${student.firstName} ${student.lastName}`}
-                      >
-                        <Trash />
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan={5}>No students found.</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-        {selectedStudent && (
-          <div className="student-profile-card" ref={profileRef}>
-            <button
-              className="edit-button"
-              type="button"
-              onClick={() => handleEditStudent(selectedStudent)}
-              aria-label="Edit-student"
-            >
-              <SquarePen />
-            </button>
-            <button
-              className="close-profile"
-              onClick={() => setSelectedStudent(null)}
-            >
-              X
-            </button>
-            <img src={selectedStudent.image} className="profile-image" />
-            <h2>
-              {selectedStudent.lastName} {selectedStudent.firstName}
-            </h2>
-            <p className="profile-id">
-              Student ID:{selectedStudent.studentId || selectedStudent.id}
-            </p>
-            <div className="profile-details">
-              <div>
-                <span>Email</span>
-                <p>{selectedStudent.email}</p>
-              </div>
-              <div>
-                <span>Address</span>
-                <p>
-                  {selectedStudent.address.city},{selectedStudent.address.state}
-                </p>
-              </div>
-              <div>
-                <span>Age</span>
-                <p>{selectedStudent.age}</p>
-              </div>
-              <div>
-                <span>Gender</span>
-                <p>{selectedStudent.gender}</p>
-              </div>
-              <div>
-                <span>Phone Number</span>
-                <p>{selectedStudent.phone}</p>
-              </div>
-              <div>
-                <span>Height</span>
-                <p>{selectedStudent.height}</p>
-              </div>
-              <div>
-                <span>Weight</span>
-                <p>{selectedStudent.weight}</p>
-              </div>
-              <button
-                className="delete-record"
-                type="button"
-                onClick={() => confirmDeleteStudent(selectedStudent)}
-              >
-                Delete Record
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
+      <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      <StudentTable
+        filteredStudents={filteredStudents}
+        setSelectedStudent={setSelectedStudent}
+        confirmDeleteStudent={confirmDeleteStudent}
+        selectedStudent={selectedStudent}
+        handleEditStudent={handleEditStudent}
+        profileRef={profileRef}
+      />
       {showModal && (
-        <div
-          className="modal-overlay"
-          onClick={() => !loading && setShowModal(false)}
-        >
-          <div
-            className="student-modal"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <div className="modal-header">
-              <h2>{studentToEdit ? "EditStudent" : "Add New Student"}</h2>
-
-              <button
-                type="button"
-                onClick={() => setShowModal(false)}
-                disabled={loading}
-                aria-label="Close form"
-              >
-                <X />
-              </button>
-            </div>
-
-            <form onSubmit={handleSubmit}>
-              <div className="form-grid">
-                {formData.image instanceof File && (
-                  <div className="image-preview">
-                    <img
-                      src={URL.createObjectURL(formData.image)}
-                      alt="Student passport preview"
-                    />
-                  </div>
-                )}
-
-                <label className="image-upload-field">
-                  Student Passport
-                  <input
-                    type="file"
-                    name="image"
-                    accept="image/*"
-                    onChange={handleChange}
-                  />
-                </label>
-                <input
-                  name="firstName"
-                  type="text"
-                  placeholder="First name"
-                  value={formData.firstName}
-                  onChange={handleChange}
-                  required
-                  minLength={2}
-                />
-
-                <input
-                  name="lastName"
-                  type="text"
-                  placeholder="Last name"
-                  value={formData.lastName}
-                  onChange={handleChange}
-                  required
-                  minLength={2}
-                />
-
-                <input
-                  name="email"
-                  type="email"
-                  placeholder="Email address"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                />
-
-                <input
-                  name="phone"
-                  type="tel"
-                  placeholder="Phone:+[---] [---] [---] [----]"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  pattern="[\+]?[0-9\s()\-]{10,20}"
-                  title="Enter a phone number containing 10–15 digits, optionally with spaces or a leading +."
-                  required
-                />
-
-                <input
-                  name="age"
-                  type="number"
-                  placeholder="Age"
-                  min="1"
-                  max="100"
-                  step="1"
-                  value={formData.age}
-                  onChange={handleChange}
-                  required
-                />
-
-                <select
-                  name="gender"
-                  value={formData.gender}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="">Select gender</option>
-                  <option value="female">Female</option>
-                  <option value="male">Male</option>
-                </select>
-
-                <input
-                  name="city"
-                  type="text"
-                  placeholder="City"
-                  value={formData.city}
-                  onChange={handleChange}
-                  required
-                  minLength={2}
-                />
-
-                <input
-                  name="state"
-                  type="text"
-                  placeholder="State"
-                  value={formData.state}
-                  onChange={handleChange}
-                  required
-                  minLength={2}
-                />
-
-                <input
-                  name="height"
-                  type="number"
-                  placeholder="Height (cm)"
-                  min="1"
-                  max="300"
-                  step="any"
-                  value={formData.height}
-                  onChange={handleChange}
-                  required
-                />
-
-                <input
-                  name="weight"
-                  type="number"
-                  placeholder="Weight (kg)"
-                  min="1"
-                  max="500"
-                  step="any"
-                  value={formData.weight}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-
-              {notification?.type === "error" && (
-                <p className="form-error" role="alert">
-                  {notification.message}
-                </p>
-              )}
-
-              <button type="submit" className="done-button" disabled={loading}>
-                {loading ? (
-                  <>
-                    <span className="loader" />
-                    {studentToEdit
-                      ? "Updating student details..."
-                      : "Adding student"}
-                  </>
-                ) : (
-                  "Done"
-                )}
-              </button>
-            </form>
-          </div>
-        </div>
+        <FormModal
+          loading={loading}
+          setShowModal={setShowModal}
+          studentToEdit={studentToEdit}
+          handleSubmit={handleSubmit}
+          formData={formData}
+          imagePreview={imagePreview}
+          handleChange={handleChange}
+          notification={notification}
+        />
       )}
 
       {showDeleteConfirm && studentToDelete && (
-        <div className="delete-confirm-overlay">
-          <div
-            className="delete-confirm-modal"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <div className="delete-warning-icon">
-              <Trash size={26} />
-            </div>
-
-            <h2>Delete Student?</h2>
-
-            <p>
-              Are you sure you want to delete{" "}
-              <strong>
-                {studentToDelete.firstName} {studentToDelete.lastName}
-              </strong>
-              ? This action cannot be undone.
-            </p>
-
-            <div className="delete-confirm-actions">
-              <button
-                type="button"
-                className="cancel-delete"
-                onClick={() => {
-                  setShowDeleteConfirm(false);
-                  setStudentToDelete(null);
-                }}
-              >
-                Cancel
-              </button>
-
-              <button
-                type="button"
-                className="confirm-delete"
-                onClick={confirmAndDeleteStudent}
-              >
-                Yes, Delete
-              </button>
-            </div>
-          </div>
-        </div>
+        <DeleteModal
+          studentToDelete={studentToDelete}
+          setShowDeleteConfirm={setShowDeleteConfirm}
+          setStudentToDelete={setStudentToDelete}
+          confirmAndDeleteStudent={confirmAndDeleteStudent}
+        />
       )}
     </div>
   );

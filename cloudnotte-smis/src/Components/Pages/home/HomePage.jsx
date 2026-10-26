@@ -1,23 +1,85 @@
 import {Link} from 'react-router'
-import {useState,useEffect} from 'react';
 
 import './HomePage.css'
 
 
 function HomePage(){
-    const [students,setStudents] =useState([])
-    useEffect(()=>{
-    const fetchStudents = async ()=>{
-        const response = await fetch('https://dummyjson.com/users')
-        const data = await response.json()
-        setStudents(data.users)
-    }
+    
+   
+const totalStudents = (() => {
+  const savedStudents = JSON.parse(
+    localStorage.getItem("misStudents") || "[]"
+  );
 
-    fetchStudents()
-},[])
-const totalStudents=students.length
-const juniorStudents =students.slice(0,18).length
-const seniorStudents =students.slice(18,30).length
+  const addedStudents = JSON.parse(
+    localStorage.getItem("misAddedStudents") || "{}"
+  );
+
+  const deletedIds = JSON.parse(
+    localStorage.getItem("misDeletedStudentIds") || "[]"
+  );
+
+  const allStudents = [
+    ...savedStudents,
+    ...Object.values(addedStudents).flat(),
+  ];
+
+  return allStudents.filter(
+    (student, index, array) =>
+      array.findIndex((item) => item.id === student.id) === index &&
+      !deletedIds.includes(student.id)
+  ).length;
+})();
+const savedStudents = JSON.parse(
+  localStorage.getItem("misStudents") || "[]"
+);
+
+const addedStudentsByClass = JSON.parse(
+  localStorage.getItem("misAddedStudents") || "{}"
+);
+
+const deletedStudentIds = JSON.parse(
+  localStorage.getItem("misDeletedStudentIds") || "[]"
+);
+
+const juniorClasses = ["JSS 1", "JSS 2", "JSS 3"];
+const seniorClasses = ["SSS 1", "SSS 2", "SSS 3"];
+
+const juniorStudents = juniorClasses.reduce(
+  (total, className) =>
+    total +
+    (savedStudents.length > 0
+      ? ({
+          "JSS 1": savedStudents.slice(0, 5),
+          "JSS 2": savedStudents.slice(5, 12),
+          "JSS 3": savedStudents.slice(12, 18),
+        }[className] || []).filter(
+          (student) => !deletedStudentIds.includes(student.id)
+        ).length
+      : 0) +
+    (addedStudentsByClass[className] || []).filter(
+      (student) => !deletedStudentIds.includes(student.id)
+    ).length,
+  0
+);
+
+const seniorStudents = seniorClasses.reduce(
+  (total, className) =>
+    total +
+    (savedStudents.length > 0
+      ? ({
+          "SSS 1": savedStudents.slice(18, 23),
+          "SSS 2": savedStudents.slice(23, 27),
+          "SSS 3": savedStudents.slice(27, 30),
+        }[className] || []).filter(
+          (student) => !deletedStudentIds.includes(student.id)
+        ).length
+      : 0) +
+    (addedStudentsByClass[className] || []).filter(
+      (student) => !deletedStudentIds.includes(student.id)
+    ).length,
+  0
+);
     return(
         <>
         

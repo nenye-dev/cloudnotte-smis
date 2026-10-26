@@ -99,11 +99,18 @@ function StudentsPage() {
     );
   });
   const handleStudentAdded = (newStudent, className) => {
-    setAddedStudentsByClass((previous) => ({
-      ...previous,
-      [className]: [...(previous[className] || []), newStudent],
-    }));
+    setAddedStudentsByClass((previous) => {
+      const updated = {
+        ...previous,
+        [className]: [...(previous[className] || []), newStudent],
+      };
+
+      console.log("Students added to class:", updated[className]);
+
+      return updated;
+    });
   };
+
   const handleStudentUpdated = (updatedStudent) => {
     setStudents((previous) =>
       previous.map((student) =>

@@ -509,6 +509,23 @@
     height:30px;
     border: #080D1A;
 }
+.edit-button{
+    width:50px;
+    height:50px;
+    background-color:white;
+    color:#a8002f;
+    border: 1px solid white;
+    
+}
+.edit-button svg{
+    width:40px;
+    height:40px;
+}
+.edit-button:hover {
+    background-color: #fff0f4;
+    transform: translateY(-2px);
+}
+
 /* ================================
    Responsive
 ================================ */
@@ -833,4 +850,13 @@
   .delete-confirm-actions {
     flex-direction: column-reverse;
   }
+}
+.image-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
+  color: #666;
+  font-size: 12px;
+  text-align: center;
 }
