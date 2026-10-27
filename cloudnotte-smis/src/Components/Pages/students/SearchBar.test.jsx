@@ -3,6 +3,7 @@ import {render,screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {useState} from 'react';
 import SearchBar from './SearchBar';
+import StudentTable from './StudentTable'
 
 describe('SearchBar',()=>{
     it('searches a particular student and renders',async ()=>{
@@ -18,4 +19,14 @@ describe('SearchBar',()=>{
     
         expect(searchInput).toHaveValue('John');
     });
+    it('checks for no student found',async()=>{
+     
+        render(<StudentTable filteredStudents={[]} students={[
+            {id:1, firstName:'John', lastName:'Newman'},
+            {id:2, firstName:'Brendan', lastName:'Nwanze'}
+        ]}/>
+    );
+   
+    expect(screen.getByText(/no students found/i)).toBeInTheDocument();
+    })
 });
