@@ -83,7 +83,7 @@ describe('Student form validation',()=>{
             target:{name:'lastName',value:'Smith'}
         });
         fireEvent.change(screen.getByLabelText(/age/i),{
-          target:{name:'age',value:'c'}
+          target:{name:'age',value:'12'}
         })
         fireEvent.click(screen.getByRole('button',{name:/submit/i}));
         expect(axios.post).not.toHaveBeenCalled();
