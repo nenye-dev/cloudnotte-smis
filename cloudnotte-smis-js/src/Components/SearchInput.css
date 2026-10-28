@@ -1,0 +1,71 @@
+
+.search-input {
+    display: block;
+
+    width: 90%;
+    max-width: 500px;
+
+    margin: 20px auto;
+    padding: 12px 16px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #9ca3af;
+    border-radius: 20px;
+
+    background-color: #F9FAFB;
+
+    font-size: 14px;
+
+    outline: none;
+
+    transition: border-color 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+
+/* When the user clicks the search input */
+
+.search-input:focus {
+    border-color: #cc0039;
+
+    box-shadow: 0 0 0 3px rgba(204, 0, 57, 0.1);
+}
+
+
+/* Tablet */
+
+@media (max-width: 900px) {
+
+    .search-input {
+        width: 92%;
+        max-width: 500px;
+    }
+
+}
+
+
+/* Phone */
+
+@media (max-width: 550px) {
+
+    .search-input {
+        width: 92%;
+        padding: 11px 14px;
+        font-size: 13px;
+    }
+
+}
+
+
+/* Very small phones */
+
+@media (max-width: 380px) {
+
+    .search-input {
+        width: 94%;
+        padding: 10px 12px;
+        font-size: 12px;
+    }
+
+}

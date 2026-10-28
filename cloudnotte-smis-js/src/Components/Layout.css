@@ -1,0 +1,98 @@
+/* =========================================
+   MAIN LAYOUT
+========================================= */
+
+.layout {
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: clip;
+    box-sizing: border-box;
+}
+
+/* =========================================
+   MAIN PAGE CONTENT
+========================================= */
+
+.main-content {
+    width: 100%;
+    min-width: 0;
+    min-height: 100vh;
+    padding: 24px;
+    box-sizing: border-box;
+    
+}
+
+/* =========================================
+   DESKTOP: FIT BESIDE THE SIDEBAR
+========================================= */
+
+@media (min-width: 769px) {
+    .menu-open .main-content {
+        width: calc(100% - 260px);
+        margin-left: 260px;
+    }
+
+    .menu-closed .main-content {
+        width: 100%;
+        margin-left: 0;
+    }
+}
+
+/* =========================================
+   TABLET AND MOBILE
+========================================= */
+@media (max-width: 768px) {
+    .main-content,
+    .menu-open .main-content,
+    .menu-closed .main-content {
+        width: 100%;
+        margin-left: 0;
+        padding: 76px 16px 24px;
+    }
+}
+
+.main-content > * {
+    max-width: 100%;
+    min-width: 0;
+}
+
+.main-content img {
+    max-width: 100%;
+    height: auto;
+}
+
+.main-content table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+    .main-content {
+        padding: 72px 12px 20px;
+    }
+}
+
+/* =========================================
+   PREVENT CHILDREN OVERFLOW
+========================================= */
+
+.main-content > * {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.main-content img {
+    max-width: 100%;
+    height: auto;
+}
+
+.main-content table {
+    max-width: 100%;
+    display: block;
+    overflow-x: auto;
+}

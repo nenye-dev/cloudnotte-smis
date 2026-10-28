@@ -1,0 +1,325 @@
+
+/* =========================================
+   HEADER
+========================================= */
+
+.header {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    position: sticky;
+    top: 0;
+
+    padding: 5px 0;
+
+    border-bottom: 1px solid #e5e7eb;
+
+    background-color: white;
+
+    box-sizing: border-box;
+
+    z-index: 1000;
+}
+
+
+/* =========================================
+   HEADER LEFT SIDE
+========================================= */
+
+.header1 {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+}
+
+
+/* =========================================
+   MENU BUTTON
+========================================= */
+
+.menu-button {
+    margin-left: 5px;
+
+    width: 35px;
+    height: 35px;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 5px;
+
+    background-color: white;
+
+    color: #333333;
+
+    font-size: 18px;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+}
+
+.menu-button:hover {
+    color: #cc0039;
+
+    border-color: #cc0039;
+}
+
+
+/* =========================================
+   LOGO
+========================================= */
+
+.header img {
+    width: 150px;
+    height: 45px;
+
+    margin-left: 5px;
+
+    object-fit: contain;
+}
+
+
+/* =========================================
+   PROFILE BUTTON
+========================================= */
+
+.profile-button {
+    width: 40px;
+    height: 40px;
+
+    border-radius: 50%;
+
+    padding: 5px 10px;
+
+    border: 1px solid black;
+
+    margin-right: 5px;
+    margin-top: 3px;
+
+    background-color: #111827;
+
+    color: white;
+
+    cursor: pointer;
+
+    font-weight: 600;
+}
+
+
+/* =========================================
+   SIDE MENU
+========================================= */
+
+.side-menu {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 260px;
+    height: 100vh;
+
+    padding: 25px 20px;
+
+    box-sizing: border-box;
+
+    background-color: #080D1A;
+
+    z-index: 2000;
+
+    /*
+       Start outside the screen
+    */
+    transform: translateX(-100%);
+
+    transition: transform 0.3s ease;
+
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.15);
+}
+
+
+/* =========================================
+   OPEN MENU
+========================================= */
+
+.side-menu-open {
+    transform: translateX(0);
+}
+
+
+/* =========================================
+   MENU HEADER
+========================================= */
+
+.menu-header {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding-bottom: 20px;
+
+    border-bottom: 1px solid #374151;
+}
+
+.menu-header h2 {
+    margin: 0;
+
+    color: white;
+
+    font-size: 22px;
+}
+
+
+/* =========================================
+   CLOSE BUTTON
+========================================= */
+
+.close-button {
+    border: none;
+
+    background-color: transparent;
+
+    color: white;
+
+    font-size: 30px;
+
+    cursor: pointer;
+
+    padding: 0;
+}
+
+.close-button:hover {
+    color: #cc0039;
+}
+
+
+/* =========================================
+   MENU LINKS
+========================================= */
+
+.menu-links {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+    margin-top: 20px;
+}
+
+.menu-links a {
+    display: block;
+
+    padding: 13px 12px;
+
+    border-radius: 7px;
+
+    color: #f5f5f5;
+
+    text-decoration: none;
+
+    font-size: 16px;
+
+    transition: background-color 0.2s ease,
+                color 0.2s ease;
+}
+
+.menu-links a:hover {
+    background-color: #cc0039;
+
+    color: white;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 800px) {
+
+    .header img {
+        width: 130px;
+        height: 42px;
+    }
+
+    .side-menu {
+        width: 240px;
+    }
+}
+
+
+/* =========================================
+   PHONE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .header {
+        padding: 4px 0;
+    }
+
+    .header img {
+        width: 115px;
+        height: 40px;
+
+        margin-left: 2px;
+    }
+
+    .menu-button {
+        width: 33px;
+        height: 33px;
+
+        margin-left: 4px;
+
+        font-size: 17px;
+    }
+
+    .profile-button {
+        width: 38px;
+        height: 38px;
+
+        margin-right: 5px;
+    }
+
+    .side-menu {
+        width: 230px;
+    }
+}
+
+
+/* =========================================
+   SMALL PHONES
+========================================= */
+
+@media (max-width: 390px) {
+
+    .header img {
+        width: 105px;
+        height: 38px;
+    }
+
+    .side-menu {
+        width: 220px;
+    }
+}
+
+
+
+.main-content {
+    width: 100%;
+    transition: margin-left 0.3s ease;
+}
+
+.main-content-shifted {
+    margin-left: 260px;
+}
