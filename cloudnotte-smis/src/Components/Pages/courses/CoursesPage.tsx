@@ -23,8 +23,8 @@ import {
   Music,
   Banknote,
 } from "lucide-react";
-import CoursesVenn from "./CoursesVenn";
-import CoursesModal from "./CoursesModal";
+import CoursesVenn from "./CoursesVenn.tsx";
+import CoursesModal from "./CoursesModal.tsx";
 import "./CoursesPage.css";
 type Course={
   className:string,

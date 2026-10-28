@@ -1,8 +1,8 @@
 import {Routes,Route} from 'react-router';
 import Layout from './Components/Layout.tsx';
-import HomePage from './Components/Pages/home/HomePage';
+import HomePage from './Components/Pages/home/HomePage.tsx';
 import StudentsPage from './Components/Pages/students/StudentsPage'
-import CoursesPage from './Components/Pages/courses/CoursesPage'
+import CoursesPage from './Components/Pages/courses/CoursesPage.tsx'
 import AboutPage from './Components/Pages/about/AboutPage.tsx';
 import NotFound from './Components/Pages/not found/NotFoundPage'
 import './App.css'
