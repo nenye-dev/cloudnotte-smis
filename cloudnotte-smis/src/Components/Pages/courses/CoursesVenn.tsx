@@ -1,3 +1,12 @@
+type CoursesVennProps={
+  juniorOnlyCourses:string[];
+  seniorOnlyCourses:string[];
+  bothCourses:string[];
+  setSelectedGroup:(group:string[] |null)=>void;
+  setSelectedGroupName:(name:string)=>void;
+  setSelectedGroupDescription:(description:string)=>void;
+}
+
 function CoursesVenn({
   juniorOnlyCourses,
   seniorOnlyCourses,
@@ -5,7 +14,7 @@ function CoursesVenn({
   setSelectedGroup,
   setSelectedGroupName,
   setSelectedGroupDescription,
-}) {
+}:CoursesVennProps) {
   return (
     <div className="courses-venn">
       <div className="course-group junior-group">

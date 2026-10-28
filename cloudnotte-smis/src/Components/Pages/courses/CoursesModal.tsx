@@ -1,9 +1,22 @@
+type CoursesModalProps={
+  setSelectedGroup:(group:string[] | null)=>void;
+   selectedGroupName:string;
+  selectedCourses:{
+    name:string,
+    description:string,
+    className:string,
+    icon:React.ComponentType;
+  }[];
+  selectedGroupDescription:string;
+}
+
+
 function CoursesModal({
   setSelectedGroup,
   selectedGroupName,
   selectedCourses,
   selectedGroupDescription,
-}) {
+}:CoursesModalProps) {
   return (
     <div className="modal-overlay" onClick={() => setSelectedGroup(null)}>
       <main

@@ -1,4 +1,6 @@
 import { useState } from "react";
+import type {ComponentType} from "react";
+
 import {
   Diff,
   BookA,
@@ -24,12 +26,18 @@ import {
 import CoursesVenn from "./CoursesVenn";
 import CoursesModal from "./CoursesModal";
 import "./CoursesPage.css";
+type Course={
+  className:string,
+  icon:ComponentType,
+  name:string,
+  description:string,
+}
 
 function CoursesPage() {
-  const [selectedGroup, setSelectedGroup] = useState(null);
-  const [selectedGroupName, setSelectedGroupName] = useState("");
-  const [selectedGroupDescription, setSelectedGroupDescription] = useState("");
-  const courses = [
+  const [selectedGroup, setSelectedGroup] = useState<string[] | null>(null);
+  const [selectedGroupName, setSelectedGroupName] = useState<string>("");
+  const [selectedGroupDescription, setSelectedGroupDescription] = useState<string>("");
+  const courses :Course[]= [
     {
       className: "mathematics",
       icon: Diff,
@@ -173,7 +181,7 @@ function CoursesPage() {
   ];
   console.log(courses);
 
-  const juniorCourses = [
+  const juniorCourses :string[]= [
     "Mathematics",
     "English",
     "Civic Education",
@@ -185,7 +193,7 @@ function CoursesPage() {
     "Literature",
     "Sociology",
   ];
-  const seniorCourses = [
+  const seniorCourses:string[] = [
     "Mathematics",
     "English",
     "Civic Education",
