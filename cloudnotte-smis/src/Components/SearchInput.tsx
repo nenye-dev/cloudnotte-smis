@@ -1,6 +1,9 @@
 import './SearchInput.css'
-
-function SearchInput({searchText,setSearchText}){
+type SearchInputProps={
+    searchText:string;
+    setSearchText:(searchText:string)=>void;
+}
+function SearchInput({searchText,setSearchText}:SearchInputProps){
             return(
                 <input 
                 className="search-input"

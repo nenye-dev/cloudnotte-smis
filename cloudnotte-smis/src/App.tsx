@@ -1,5 +1,5 @@
 import {Routes,Route} from 'react-router';
-import Layout from './Components/Layout';
+import Layout from './Components/Layout.tsx';
 import HomePage from './Components/Pages/home/HomePage';
 import StudentsPage from './Components/Pages/students/StudentsPage'
 import CoursesPage from './Components/Pages/courses/CoursesPage'

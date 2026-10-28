@@ -1,7 +1,11 @@
 import {Link} from 'react-router'
 import logo from '../assets/logo.png'
 import './Header.css'
-function Header({isMenuOpen,setIsMenuOpen}){
+type HeaderProps={
+    isMenuOpen:boolean;
+    setIsMenuOpen:(isOpen: boolean)=>void;
+};
+function Header({isMenuOpen,setIsMenuOpen}:HeaderProps){
     const handleMenuClick =()=>{
         setIsMenuOpen(!isMenuOpen)
     }
