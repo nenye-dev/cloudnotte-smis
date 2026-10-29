@@ -6,6 +6,7 @@ export type Student = {
   lastName?: string;
   email?: string;
   age?: number;
+  department?:string;
   gender?: string;
   phone?: string;
   height?: number;
@@ -24,6 +25,7 @@ export type StudentFormData = {
   lastName: string;
   email: string;
   age: string;
+  department:string;
   gender: string;
   phone: string;
   city: string;

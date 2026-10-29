@@ -1,4 +1,4 @@
-import { UserRound, Mail, MapPin, SquarePen, Trash } from "lucide-react";
+import { UserRound, Mail, MapPin, SquarePen, Trash,Landmark } from "lucide-react";
 import type {RefObject} from 'react';
 import type {Student} from './studentTypes';
 type StudentTableProps={
@@ -37,6 +37,10 @@ function StudentTable({
                 <MapPin />
                 Address
               </th>
+              <th>
+                <Landmark />
+                Department
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -66,6 +70,9 @@ function StudentTable({
                   <td>{student.email}</td>
                   <td>
                     {student.address?.city},{student.address?.state}
+                  </td>
+                  <td>
+                    {student.department || "Not specified"}
                   </td>
                   <td>
                     <button
@@ -152,6 +159,10 @@ function StudentTable({
             <div>
               <span>Weight</span>
               <p>{selectedStudent.weight}</p>
+            </div>
+             <div>
+              <span>Department</span>
+              <p>{selectedStudent.department}</p>
             </div>
             <button
               className="delete-record"

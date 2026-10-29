@@ -30,6 +30,7 @@ function FirstPart({selectedClass,setNotification,setStudentToEdit,setFormData,s
               firstName: "",
               lastName: "",
               email: "",
+              department: "",
               age: "",
               gender: "",
               phone: "",

@@ -19,13 +19,13 @@ type FormModalMockProps = {
 vi.mock("axios");
 
 vi.mock("./FirstPart", () => ({
-  default: ({ setShowModal }:FirstPartMockProps) => (
+  default: ({ setShowModal }: FirstPartMockProps) => (
     <button onClick={() => setShowModal(true)}>Add student</button>
   ),
 }));
 
 vi.mock("./FormModal", () => ({
-  default: ({ handleSubmit, formData, handleChange }:FormModalMockProps) => (
+  default: ({ handleSubmit, formData, handleChange }: FormModalMockProps) => (
     <form onSubmit={handleSubmit}>
       <input
         name="firstName"
@@ -69,6 +69,12 @@ vi.mock("./FormModal", () => ({
         value={formData.height}
         onChange={handleChange}
       />
+      <input
+        name="department"
+        aria-label="department"
+        value={formData.department}
+        onChange={handleChange}
+      />
       <button type="submit">Submit</button>
     </form>
   ),
@@ -78,7 +84,7 @@ describe("Student form validation", () => {
   it("rejects names containing numbers", async () => {
     render(
       <IndividualClassPage
-       profileRef={createRef<HTMLDivElement>()}
+        profileRef={createRef<HTMLDivElement>()}
         classes={{
           "JSS 1": [],
           "JSS 2": [],
@@ -106,7 +112,46 @@ describe("Student form validation", () => {
     fireEvent.change(screen.getByLabelText(/age/i), {
       target: { name: "age", value: "12" },
     });
+    fireEvent.change(screen.getByLabelText(/department/i), {
+      target: { name: "department", value: "Software Engineering" },
+    });
+
     fireEvent.click(screen.getByRole("button", { name: /submit/i }));
     expect(axios.post).not.toHaveBeenCalled();
+  });
+  it("updates the department field when entered", () => {
+    render(
+      <IndividualClassPage
+        profileRef={createRef<HTMLDivElement>()}
+        classes={{
+          "JSS 1": [],
+          "JSS 2": [],
+          "JSS 3": [],
+          "SSS 1": [],
+          "SSS 2": [],
+          "SSS 3": [],
+        }}
+        selectedClass="JSS 1"
+        selectedStudent={null}
+        setSelectedStudent={vi.fn()}
+        setSelectedClass={vi.fn()}
+        onStudentAdded={vi.fn()}
+        onStudentDeleted={vi.fn()}
+        onStudentUpdated={vi.fn()}
+      />,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: /add student/i }));
+
+    const departmentInput = screen.getByLabelText(/department/i);
+
+    fireEvent.change(departmentInput, {
+      target: {
+        name: "department",
+        value: "Software Engineering",
+      },
+    });
+
+    expect(departmentInput).toHaveValue("Software Engineering");
   });
 });
