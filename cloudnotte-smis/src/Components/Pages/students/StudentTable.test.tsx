@@ -1,25 +1,28 @@
 import { it, expect, describe, vi } from "vitest";
 import { render, screen, within, waitFor } from "@testing-library/react";
-
+import { createRef } from "react";
+import axios from "axios";
+import type { AxiosResponse } from "axios";
+import type { Student } from "./studentTypes";
 import StudentTable from "./StudentTable";
 import StudentsPage from "./StudentsPage";
-import axios from "axios";
+
 
 vi.mock("axios");
 describe("Student table", () => {
   it("fetches from the api", async () => {
-    axios.get.mockResolvedValue({
+    vi.mocked(axios.get).mockResolvedValue({
       data: {
         users: [],
       },
-    });
+    } as AxiosResponse);
     render(<StudentsPage />);
     await waitFor(() => {
       expect(axios.get).toHaveBeenCalledWith("https://dummyjson.com/users");
     });
   });
   it("displays the student table with appropriate information", async () => {
-    const mockStudents = [
+    const mockStudents :Student[]= [
       {
         id: 1,
         firstName: "Student1",
@@ -31,12 +34,18 @@ describe("Student table", () => {
         image: "https://example.com/student.jpg",
         address: {
           city: "Lagos",
-          address: "Ikeja",
+          state: "Lagos",
         },
       },
     ];
 
-    render(<StudentTable filteredStudents={mockStudents} />);
+    render(<StudentTable  
+    filteredStudents={mockStudents}
+    selectedStudent={null}
+    setSelectedStudent={vi.fn()}
+    confirmDeleteStudent={vi.fn()}
+    handleEditStudent={vi.fn()}
+    profileRef={createRef<HTMLDivElement>()} />);
 
     expect(await screen.findByRole("table")).toBeInTheDocument();
     const studentRow = screen.getByRole("row", {

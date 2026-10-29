@@ -1,4 +1,11 @@
-function SearchBar({searchTerm,setSearchTerm}){
+import type {Dispatch,SetStateAction} from 'react';
+
+type SearchBarProps={
+  searchTerm:string;
+  setSearchTerm:Dispatch<SetStateAction<string>>;
+}
+
+function SearchBar({searchTerm,setSearchTerm}:SearchBarProps){
     return(
         <div className="search-bar">
         <input

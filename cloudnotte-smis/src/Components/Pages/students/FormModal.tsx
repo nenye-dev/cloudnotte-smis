@@ -1,5 +1,35 @@
+import type {
+  Dispatch,
+  SetStateAction,
+  ChangeEvent,
+  FormEvent,
+} from "react";
+
+import type {
+  Student,
+  StudentFormData,
+  NotificationData,
+} from "./studentTypes";
+
 import {X}from 'lucide-react';
-function FormModal({loading,setShowModal,studentToEdit,handleSubmit,formData,imagePreview,handleChange,notification}){
+
+type FormModalProps = {
+  loading: boolean;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  studentToEdit: Student | null;
+  handleSubmit: (event: FormEvent<HTMLFormElement>) => Promise<void>;
+  formData: StudentFormData;
+  imagePreview: string;
+  handleChange: (
+    event: ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => void;
+  notification: NotificationData | null;
+};
+
+
+function FormModal({loading,setShowModal,studentToEdit,handleSubmit,formData,imagePreview,handleChange,notification}:FormModalProps){
     return(
           <div
           className="modal-overlay"

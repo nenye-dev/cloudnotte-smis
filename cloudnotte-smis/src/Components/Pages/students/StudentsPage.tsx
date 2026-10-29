@@ -1,8 +1,19 @@
 import { useState, useEffect, useRef } from "react";
 import "./StudentsPage.css";
-import IndividualClassPage from "./IndividualClassPage";
+import IndividualClassPage from "./IndividualClassPage.tsx";
 import axios from "axios";
-function readFromStorage(key, fallback) {
+import type {
+  Student,
+  ClassName,
+  StudentsByClass,
+  AddedStudentsByClass,
+} from "./studentTypes";
+
+
+type ReadFromStorage=<T>(key:string,fallback:T)=>T;
+
+
+const readFromStorage:ReadFromStorage=(key, fallback) =>{
   try {
     const savedData = localStorage.getItem(key);
     return savedData ? JSON.parse(savedData) : fallback;
@@ -12,27 +23,27 @@ function readFromStorage(key, fallback) {
   }
 }
 function StudentsPage() {
-  const [students, setStudents] = useState(() =>
-    readFromStorage("misStudents", []),
+  const [students, setStudents] = useState<Student[]>(() =>
+    readFromStorage<Student[]>("misStudents", []),
   );
-  const [selectedClass, setSelectedClass] = useState(null);
-  const [selectedStudent, setSelectedStudent] = useState(null);
-  const [addedStudentsByClass, setAddedStudentsByClass] = useState(() =>
-    readFromStorage("misAddedStudents", {}),
+  const [selectedClass, setSelectedClass] = useState<ClassName |null>(null);
+  const [selectedStudent, setSelectedStudent] = useState<Student |null>(null);
+  const [addedStudentsByClass, setAddedStudentsByClass] = useState<AddedStudentsByClass>(() =>
+    readFromStorage<AddedStudentsByClass>("misAddedStudents", {}),
   );
-  const [deletedStudentIds, setDeletedStudentIds] = useState(() =>
-    readFromStorage("misDeletedStudentIds", []),
+  const [deletedStudentIds, setDeletedStudentIds] = useState<(string |number)[]>(() =>
+    readFromStorage<(string |number)[]>("misDeletedStudentIds", []),
   );
-  const handleStudentDeleted = (studentId) => {
+  const handleStudentDeleted = (studentId :string |number) => {
     setDeletedStudentIds((previous) =>
       previous.includes(studentId) ? previous : [...previous, studentId],
     );
 
     setAddedStudentsByClass((previous) => {
-      const updated = {};
+      const updated:AddedStudentsByClass= {};
 
-      Object.keys(previous).forEach((className) => {
-        updated[className] = previous[className].filter(
+     ( Object.keys(previous) as ClassName[]).forEach((className) => {
+        updated[className] = (previous[className] || []).filter(
           (student) => student.id !== studentId,
         );
       });
@@ -41,9 +52,9 @@ function StudentsPage() {
     });
   };
 
-  const profileRef = useRef(null);
+  const profileRef = useRef<HTMLDivElement | null>(null);
   const fetchStudents = async () => {
-    const response = await axios.get("https://dummyjson.com/users");
+    const response = await axios.get<{users:Student[]}>("https://dummyjson.com/users");
     setStudents(response.data.users);
     console.log(response);
   };
@@ -78,7 +89,7 @@ function StudentsPage() {
     }
   }, [selectedStudent]);
 
-  const classes = {
+  const classes:StudentsByClass = {
     "JSS 1": students.slice(0, 5),
     "JSS 2": students.slice(5, 12),
     "JSS 3": students.slice(12, 18),
@@ -87,18 +98,18 @@ function StudentsPage() {
     "SSS 3": students.slice(27, 30),
   };
   console.log(classes);
-  Object.keys(classes).forEach((className) => {
+  (Object.keys(classes) as ClassName[]).forEach((className) => {
     classes[className] = [
       ...classes[className],
       ...(addedStudentsByClass[className] || []),
     ];
   });
-  Object.keys(classes).forEach((className) => {
+  (Object.keys(classes) as ClassName[]).forEach((className) => {
     classes[className] = classes[className].filter(
       (student) => !deletedStudentIds.includes(student.id),
     );
   });
-  const handleStudentAdded = (newStudent, className) => {
+  const handleStudentAdded = (newStudent:Student, className:ClassName) => {
     setAddedStudentsByClass((previous) => {
       const updated = {
         ...previous,
@@ -111,7 +122,7 @@ function StudentsPage() {
     });
   };
 
-  const handleStudentUpdated = (updatedStudent) => {
+  const handleStudentUpdated = (updatedStudent:Student) => {
     setStudents((previous) =>
       previous.map((student) =>
         student.id === updatedStudent.id ? updatedStudent : student,
@@ -119,10 +130,10 @@ function StudentsPage() {
     );
 
     setAddedStudentsByClass((previous) => {
-      const updated = {};
+      const updated:AddedStudentsByClass= {};
 
-      Object.keys(previous).forEach((className) => {
-        updated[className] = previous[className].map((student) =>
+      (Object.keys(previous) as ClassName[]).forEach((className) => {
+        updated[className] =( previous[className]||[]).map((student) =>
           student.id === updatedStudent.id ? updatedStudent : student,
         );
       });

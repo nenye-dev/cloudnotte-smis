@@ -1,5 +1,16 @@
 import {Trash} from 'lucide-react';
-function DeleteModal({studentToDelete,setShowDeleteConfirm,setStudentToDelete,confirmAndDeleteStudent}){
+import type { Dispatch, SetStateAction } from "react";
+import type { Student } from "./studentTypes";
+
+
+type DeleteModalProps = {
+  studentToDelete: Student;
+  setShowDeleteConfirm: Dispatch<SetStateAction<boolean>>;
+  setStudentToDelete: Dispatch<SetStateAction<Student | null>>;
+  confirmAndDeleteStudent: () => Promise<void>;
+};
+
+function DeleteModal({studentToDelete,setShowDeleteConfirm,setStudentToDelete,confirmAndDeleteStudent}:DeleteModalProps){
     return(
          <div className="delete-confirm-overlay">
           <div

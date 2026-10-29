@@ -1,17 +1,52 @@
 import { useState, useEffect } from "react";
+import type{
+  ChangeEvent,
+  Dispatch,
+  FormEvent,
+  RefObject,
+  SetStateAction,
+}from 'react';
 import axios from "axios";
-import StudentTable from "./StudentTable";
-import FirstPart from "./FirstPart";
-import SearchBar from "./SearchBar";
-import Notification from "./Notification";
-import FormModal from "./FormModal";
-import DeleteModal from "./DeleteModal";
+import StudentTable from "./StudentTable.tsx";
+import FirstPart from "./FirstPart.tsx";
+import SearchBar from "./SearchBar.tsx";
+import Notification from "./Notification.tsx";
+import FormModal from "./FormModal.tsx";
+import DeleteModal from "./DeleteModal.tsx";
+import type{
+  Student,
+  StudentFormData,
+  NotificationData,
+  ClassName,
+  StudentsByClass,
+} from './studentTypes'
 
-function convertImageToBase64(file) {
+
+
+
+ type IndividualClassPageProps={
+  profileRef:RefObject<HTMLDivElement | null>;
+  classes:StudentsByClass;
+  selectedStudent:Student | null;
+  setSelectedStudent:Dispatch<SetStateAction<Student| null>>;
+  selectedClass:ClassName;
+  setSelectedClass:Dispatch<SetStateAction<ClassName |null>>;
+  onStudentAdded:(student:Student, className:ClassName)=>void;
+  onStudentDeleted:(studentId:string |number)=>void;
+  onStudentUpdated:(student:Student)=>void;
+ }
+
+function convertImageToBase64(file:File) :Promise<string>{
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
 
-    reader.onload = () => resolve(reader.result);
+    reader.onload = () => {
+      if(typeof reader.result==="string"){
+        resolve(reader.result);
+      }else{
+        reject(new Error("Could not convert image to Base64."));
+      }
+    };
     reader.onerror = () => reject(reader.error);
 
     reader.readAsDataURL(file);
@@ -28,7 +63,7 @@ function IndividualClassPage({
   onStudentAdded,
   onStudentDeleted,
   onStudentUpdated,
-}) {
+}:IndividualClassPageProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const classStudents = classes[selectedClass] || [];
   const filteredStudents = classStudents.filter((student) =>
@@ -38,7 +73,7 @@ function IndividualClassPage({
   );
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [notification, setNotification] = useState(null);
+  const [notification, setNotification] = useState<NotificationData |null>(null);
   useEffect(() => {
     if (!notification) return;
 
@@ -49,9 +84,9 @@ function IndividualClassPage({
     return () => clearTimeout(timer);
   }, [notification]);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-  const [studentToDelete, setStudentToDelete] = useState(null);
-  const [studentToEdit, setStudentToEdit] = useState(null);
-  const [formData, setFormData] = useState({
+  const [studentToDelete, setStudentToDelete] = useState<Student | null>(null);
+  const [studentToEdit, setStudentToEdit] = useState<Student | null>(null);
+  const [formData, setFormData] = useState<StudentFormData>({
     firstName: "",
     lastName: "",
     email: "",
@@ -64,7 +99,7 @@ function IndividualClassPage({
     weight: "",
     image: "",
   });
-  const [imagePreview, setImagePreview] = useState("");
+  const [imagePreview, setImagePreview] = useState<string>("");
 
   useEffect(() => {
     if (!(formData.image instanceof File)) {
@@ -77,14 +112,23 @@ function IndividualClassPage({
 
     return () => URL.revokeObjectURL(previewUrl);
   }, [formData.image]);
-  const handleChange = (event) => {
-    const { name, value, files } = event.target;
+  const handleChange = (
+    event:ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value, } = event.target;
+    const file=
+    event.target instanceof HTMLInputElement
+    ? event.target.files?.[0]
+    :undefined;
+
     setFormData((previous) => ({
       ...previous,
-      [name]: name === "image" ? files[0] : value,
+      [name]: name === "image" ? file ?? value: value,
     }));
   };
-  const handleSubmit = async (event) => {
+
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setNotification(null);
     // Check whether the email already exists
@@ -208,18 +252,19 @@ function IndividualClassPage({
     };
 
     try {
-      let response;
+      let responseData: Partial<Student> = {};
 
       if (studentToEdit) {
         // Update an existing student
         if (!studentToEdit.isLocal) {
-          response = await axios.put(
+          const response = await axios.put<Partial<Student>>(
             `https://dummyjson.com/users/${studentToEdit.id}`,
             studentData,
           );
+          responseData=response.data
         } else {
           // Locally added students do not need an API request
-          response = { data: studentData };
+          responseData = studentData;
         }
 
         let image = studentToEdit.image || "";
@@ -230,7 +275,7 @@ function IndividualClassPage({
 
         const updatedStudent = {
           ...studentToEdit,
-          ...response.data,
+          ...responseData,
           ...studentData,
           id: studentToEdit.id,
           address: studentData.address,
@@ -248,12 +293,13 @@ function IndividualClassPage({
         });
       } else {
         // Add a new student
-        response = await axios.post(
+       const response = await axios.post<Student>(
           "https://dummyjson.com/users/add",
           studentData,
         );
+        responseData=response.data;
 
-        let image = response.data.image || "";
+        let image = responseData.image || "";
 
         if (formData.image instanceof File) {
           image = await convertImageToBase64(formData.image);
@@ -308,11 +354,11 @@ function IndividualClassPage({
     }
   };
 
-  const confirmDeleteStudent = (student) => {
+  const confirmDeleteStudent = (student:Student) => {
     setStudentToDelete(student);
     setShowDeleteConfirm(true);
   };
-  const confirmAndDeleteStudent = async () => {
+  const confirmAndDeleteStudent = async():Promise<void> => {
     if (!studentToDelete) return;
 
     await handleDeleteStudent(studentToDelete);
@@ -320,7 +366,7 @@ function IndividualClassPage({
     setShowDeleteConfirm(false);
     setStudentToDelete(null);
   };
-  const handleDeleteStudent = async (studentToDelete) => {
+  const handleDeleteStudent = async (studentToDelete:Student,):Promise<void> => {
     try {
       if (!studentToDelete.isLocal) {
         await axios.delete(`https://dummyjson.com/users/${studentToDelete.id}`);
@@ -341,7 +387,7 @@ function IndividualClassPage({
       });
     }
   };
-  const handleEditStudent = async (studentToEdit) => {
+  const handleEditStudent = async (studentToEdit:Student) => {
     setNotification(null);
     setStudentToEdit(studentToEdit);
 

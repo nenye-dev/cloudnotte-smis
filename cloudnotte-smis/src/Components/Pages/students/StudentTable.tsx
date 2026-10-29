@@ -1,5 +1,14 @@
 import { UserRound, Mail, MapPin, SquarePen, Trash } from "lucide-react";
-
+import type {RefObject} from 'react';
+import type {Student} from './studentTypes';
+type StudentTableProps={
+  filteredStudents:Student[];
+  setSelectedStudent:(student:Student | null)=>void;
+  confirmDeleteStudent:(student:Student)=>void;
+  selectedStudent:Student | null;
+  handleEditStudent:(student :Student)=>void;
+  profileRef:RefObject<HTMLDivElement | null>;
+}
 function StudentTable({
   filteredStudents,
   setSelectedStudent,
@@ -7,7 +16,7 @@ function StudentTable({
   selectedStudent,
   handleEditStudent,
   profileRef,
-}) {
+}:StudentTableProps) {
   return (
     <div className="students-content">
       <div className="class-students-table">
@@ -56,7 +65,7 @@ function StudentTable({
                   </td>
                   <td>{student.email}</td>
                   <td>
-                    {student.address.city},{student.address.state}
+                    {student.address?.city},{student.address?.state}
                   </td>
                   <td>
                     <button
@@ -121,7 +130,7 @@ function StudentTable({
             <div>
               <span>Address</span>
               <p>
-                {selectedStudent.address.city},{selectedStudent.address.state}
+                {selectedStudent.address?.city},{selectedStudent.address?.state}
               </p>
             </div>
             <div>
